@@ -1,0 +1,232 @@
+.contain1 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  padding: 0 2rem;
+  padding-top: 1rem;
+  width: 100%;
+  /* position: fixed; */
+  background-color: rgba(8, 8, 8, 0.5);
+  backdrop-filter: blur(3px);
+  justify-content: center;
+  align-items: center;
+  border: none;
+  border-bottom: 1px solid rgb(88, 88, 88);
+  /* background-color: #000000; */
+}
+
+.bottonConnect {
+  background-color: #a31414;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+}
+
+.fisun {
+  font-size: 2rem;
+  margin-left: 1rem;
+  color: var(--primary-color);
+}
+
+.main__right {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+.connect {
+  width: 200px;
+}
+.logo {
+  width: 35px;
+  height: 35px;
+  background-color: aquamarine;
+  border-radius: 50%;
+  margin: 1.5rem;
+}
+.main__left {
+  display: flex;
+  justify-content: space-between;
+  width: 70%;
+}
+.main__left ul {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 1rem;
+  padding: 1rem 2rem;
+}
+.main__left ul li {
+  padding-left: 1rem;
+}
+
+:root {
+  --light: rgb(216, 208, 208);
+  --border: 1px solid rgb(64, 64, 134);
+  --border-radius: 0.5rem;
+  --primary-color: #4c5773;
+  --hover-color: #a31414;
+  --font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  --shadow-dark-color: #222222;
+  --shadow-light-color: rgb(33, 33, 33);
+  --box-shadow: 1rem 1rem 1rem var(--shadow-dark-color),
+    -1rem -1rem 1rem var(--shadow-light-color);
+}
+
+.the__buttons {
+  background-color: transparent;
+  border-radius: var(--border-radius);
+  border: var(--border);
+  color: var(--primary-color);
+  padding: 10px 1rem;
+  margin-top: 3rem;
+  box-shadow: var(--box-shadow);
+  cursor: pointer;
+}
+.the__buttons:hover {
+  color: var(--hover-color);
+}
+a {
+  margin-left: 5px;
+  list-style: none;
+  text-decoration: none;
+  color: var(--primary-color);
+}
+a:hover {
+  color: var(--hover-color);
+}
+h2 {
+  font-size: 1.5rem;
+  color: var(--primary-color);
+  padding-bottom: 1rem;
+  font-family: var(--font-family);
+}
+
+h3 {
+  font-size: 0.9rem;
+  padding-bottom: 0.5rem;
+  padding-top: 1rem;
+
+  color: var(--primary-color);
+  font-family: var(--font-family);
+}
+p {
+  font-size: 1rem;
+  padding-bottom: 1.5rem;
+  color: var(--primary-color);
+  font-family: var(--font-family);
+  padding-top: 0.5rem;
+}
+
+h6 {
+  color: #a31414;
+  margin-top: 15px;
+}
+/* span {
+  padding-right: 1rem;
+} */
+
+/* 
+
+.title a {
+  color: #f213a4;
+  text-decoration: none;
+}
+
+.title a:hover,
+.title a:focus,
+.title a:active {
+  text-decoration: underline;
+}
+
+.title {
+  margin: 0;
+  line-height: 1.15;
+  font-size: 4rem;
+}
+
+.title,
+.description {
+  text-align: center;
+}
+
+.connect {
+  margin-bottom: 4rem;
+  width: 230px;
+}
+
+.description {
+  margin-top: 3rem;
+  margin-bottom: 2rem;
+  line-height: 1.5;
+  font-size: 1.5rem;
+}
+
+.code {
+  background: #fafafa;
+  border-radius: 5px;
+  padding: 0.75rem;
+  font-size: 1.1rem;
+  font-family: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono,
+    Bitstream Vera Sans Mono, Courier New, monospace;
+}
+
+.grid {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  max-width: 1200px;
+}
+
+.card {
+  background-color: #1b2129;
+  margin: 1rem;
+  padding: 1.5rem;
+  text-align: left;
+  color: inherit;
+  text-decoration: none;
+  border: 1px solid #eaeaea;
+  border-radius: 10px;
+  transition: color 0.15s ease, border-color 0.15s ease;
+  max-width: 350px;
+}
+
+.card:hover,
+.card:focus,
+.card:active {
+  background-color: #272c34;
+  color: #0ea5e9;
+  border-color: #0ea5e9;
+}
+
+.card h2 {
+  margin: 0 0 1rem 0;
+  font-size: 1.5rem;
+}
+
+.card p {
+  margin: 0;
+  font-size: 1.25rem;
+  line-height: 1.5;
+}
+
+.logo {
+  height: 1em;
+  margin-left: 0.5rem;
+}
+
+@media (max-width: 600px) {
+  .grid {
+    width: 100%;
+    flex-direction: column;
+  }
+}
+
+.card,
+.footer {
+  border-color: #222;
+}
+.code {
+  background: #111;
+}
+.logo img {
+  filter: invert(1);
+} */
