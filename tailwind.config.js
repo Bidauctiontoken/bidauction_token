@@ -29,6 +29,8 @@ module.exports = {
     backgroundImage: (theme) => ({
       "image-left": "url('/src/images/image-left.png')",
       "image-right": "url('/src/images/image-right.png')",
+      // "image-body": "url('/src/images/body.png')",
+      "image-logo": "url('/src/images/logo.png')",
     }),
     colors: {
       dark: "#132c44",

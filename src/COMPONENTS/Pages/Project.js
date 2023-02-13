@@ -1,7 +1,8 @@
 import { useState, useEffect, useContext } from "react";
 import { ethers } from "ethers";
 import MigrationContractAbi from "../Contract/abi.json";
-import { useContract, useContractRead } from "@thirdweb-dev/react";
+// import { useContract, useContractRead } from "@thirdweb-dev/react";
+// import Particles from "react-particles-js";
 import { TransactionContext } from "../ReactContext/TransactionContext";
 const MigrationContractAddress = "0x055A12C497E7DA8a0555a064712aE39aCbE7DbFa";
 
@@ -13,7 +14,6 @@ let contract = new ethers.Contract(
   MigrationContractAbi,
   signer
 );
-
 function Project() {
   const {
     ApproveTx,
@@ -30,13 +30,10 @@ function Project() {
   } = useContext(TransactionContext);
 
   return (
-    <div className="mt-20 ">
-      <div className="flex justify-around items-center">
-        <div className="bg-image-right bg-right w-1/6 h-60 bg-no-repeat">
-          {/* left hand side placeholder */}
-        </div>
-
-        <div className="action-card w-2/6 p-3 shadow-lg shadow-white-500 rounded bg-bgdark mt-20 box-shadow-lg">
+    <div className="project__content">
+      <div className="flex flex-col sm:flex-column justify-around items-center">
+        <div className="mb-20">{/* left hand side placeholder */}</div>
+        <div className="action-card w-full sm:w-2/6 p-3 shadow-lg shadow-white-500 rounded bg-bgdark mt-20 box-shadow-lg">
           <h1 className="mb-3 font-bold">MIGRATE</h1>
           <>
             <div className="flex flex-col mb-5 relative">
@@ -99,7 +96,7 @@ function Project() {
             </div>
           </>
         </div>
-        <div className=" w-1/6">
+        <div className="right_wing">
           <p> right hand side placeholder right hand side placeholder</p>
           <p> right hand side placeholder</p>
           <p> right hand side placeholder</p>
