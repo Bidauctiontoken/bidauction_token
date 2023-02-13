@@ -1,6 +1,6 @@
 {
-  "short_name": "react-javascript-starter",
-  "name": "thirdweb starter project with React & JavaScript",
+  "short_name": "MigratioN",
+  "name": "BidAuction Migrating from V1 to v2",
   "icons": [
     {
       "src": "favicon.ico",

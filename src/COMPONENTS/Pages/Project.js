@@ -1,15 +1,10 @@
 import { useState, useEffect, useContext } from "react";
 import { ethers } from "ethers";
 import MigrationContractAbi from "../Contract/abi.json";
-// import "./layout.js";
-// import approveAbi from "../Contract/approve.json";
 import { useContract, useContractRead } from "@thirdweb-dev/react";
-
 import { TransactionContext } from "../ReactContext/TransactionContext";
-// const ApproveAdd = "0x7934b55980Da574df6458515d8267b98729c3532";
 const MigrationContractAddress = "0x055A12C497E7DA8a0555a064712aE39aCbE7DbFa";
 
-// const ContractAdd = "0x055A12C497E7DA8a0555a064712aE39aCbE7DbFa";
 //INSTANCES
 let provider = new ethers.providers.Web3Provider(window.ethereum);
 let signer = provider.getSigner();
@@ -33,34 +28,6 @@ function Project() {
     tokenv2Balance,
     setV1,
   } = useContext(TransactionContext);
-
-  // const [error, setError] = useState(null);
-  // const [v1, setV1] = useState("");
-  // const [v2, setV2] = useState("");
-  //   const [allowTransaction, setAllowTransaction] = useState(true);
-
-  // ///HANDLECHANGE
-  // const handleV1Change = async (e) => {
-  //   setV1(e.target.value);
-  //   const convertedInputs = ethers.utils.parseUnits(e.target.value, "ether");
-  //   const rate = await contract.rate();
-  //   const denomerator = ethers.utils.parseUnits("1", "ether");
-  //   const mul = (convertedInputs * rate) / denomerator;
-  //   const outPut = ethers.utils.formatUnits(mul.toString());
-  //   console.log(`${outPut}, ${mul}`);
-  //   setV2((e.target.value * outPut).toString());
-  // };
-
-  // const handleMigrate = async () => {
-  //   try {
-  //     const v1Amount = ethers.utils.parseUnits(v1, "ether");
-  //     await contract.migrateToV2(v1Amount);
-  //     console.log("Migration successful!");
-  //   } catch (error) {
-  //     console.error(error);
-  //     setError(error.message);
-  //   }
-  // };
 
   return (
     <div className="mt-20 ">

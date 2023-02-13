@@ -13,7 +13,7 @@ export default function Header() {
     <div className="contain1">
       <div className="main__left">
         <div>
-<h3 className="text-3xl font-medium p-2 rounded shadow-lg font-Helvetica">BIDA</h3>
+         <h3 className="text-3xl font-medium p-2 rounded shadow-lg font-Helvetica">BIDA</h3>
 
         </div>
         <ul>
