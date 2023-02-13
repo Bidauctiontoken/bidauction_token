@@ -15,7 +15,7 @@ export default function Header() {
         <div></div>
         <ul>
           <li>
-            <Link to="/projects">Migrate</Link>
+            <Link to="#projects">Migrate</Link>
           </li>
           {/* <li>
             <Link to="/minepad">Minepad</Link>

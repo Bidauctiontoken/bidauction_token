@@ -119,7 +119,7 @@ export const TransactionProvider = ({ children }) => {
     try {
       const v1Amount = ethers.utils.parseUnits(v1, "ether");
       await contract.migrateToV2(v1Amount, {
-        gasLimit: 61000,
+        gasLimit: 71000,
       });
     } catch (error) {
       setError(error.message);
