@@ -132,7 +132,7 @@ export const TransactionProvider = ({ children }) => {
       tokenV1Contract = new ethers.Contract(tokenv1, approveAbi, signer);
       const value = ethers.constants.MaxUint256;
       await tokenV1Contract.approve(MigrationContractAddress, value, {
-        gasLimit: 61000,
+        gasLimit: 71000,
       });
       setAllowTransaction(false);
     } catch (err) {}
