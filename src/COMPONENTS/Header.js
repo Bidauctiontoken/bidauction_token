@@ -12,7 +12,10 @@ export default function Header() {
   return (
     <div className="contain1">
       <div className="main__left">
-        <div></div>
+        <div>
+<h3 className="text-3xl font-medium p-2 rounded shadow-lg font-Helvetica">BIDA</h3>
+
+        </div>
         <ul>
           <li>
             <Link to="#projects">Migrate</Link>
@@ -38,7 +41,7 @@ export default function Header() {
         {/* <div className="connect">
           <ConnectWallet colorMode="white" accentColor="transparent" />
         </div> */}
-        <FiSun className="fisun" />
+        {/* <FiSun className="fisun" /> */}
       </div>
     </div>
   );

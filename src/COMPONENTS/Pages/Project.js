@@ -90,7 +90,7 @@ function Project() {
               <button
                 className={
                   `p-1 bg-dark rounded text-bold cursor-ponter d-inline absolute bottom-1 right-1 p-2 text-xs font-semibold hover:text-lighter`
-                  // : "p-1 bg-dark rounded text-bold d-inline absolute bottom-1 right-1 p-2 text-xs font-semibold text-lighter cursor-not-allowed"
+                  // "p-1 bg-dark rounded text-bold d-inline absolute bottom-1 right-1 p-2 text-xs font-semibold text-lighter cursor-not-allowed"
                 }
                 onClick={() => setV1(tokenv1Balance)}
               >
@@ -117,14 +117,14 @@ function Project() {
               {allowTransaction ? (
                 <button
                   onClick={() => ApproveTx()}
-                  className="bg-dark p-2 rounded w-full mt-10 text-lighter text-bold cursor-pointer shadow-lg py-4"
+                  className="bg-dark p-2 rounded w-full mt-10 text-lg font-semibold text-bold cursor-pointer shadow-lg py-4 hover:text-lighter"
                 >
                   Approve
                 </button>
               ) : (
                 <button
                   onClick={() => handleMigrate()}
-                  className="bg-dark p-2 rounded w-full mt-10 text-lighter text-bold cursor-pointer shadow-lg py-4"
+                  className="bg-dark p-2 rounded w-full mt-10 text-lg font-semibold text-bold cursor-pointer shadow-lg py-4 hover:text-lighter"
                 >
                   Migrate
                 </button>

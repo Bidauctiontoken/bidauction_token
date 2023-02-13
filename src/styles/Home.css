@@ -5,7 +5,7 @@
   padding-top: 1rem;
   width: 100%;
   /* position: fixed; */
-  background-color: rgba(8, 8, 8, 0.5);
+  background-color: #000;
   backdrop-filter: blur(3px);
   justify-content: center;
   align-items: center;
