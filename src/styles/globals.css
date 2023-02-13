@@ -3,15 +3,32 @@
 @tailwind utilities;
 
 body {
-  background: rgb(0, 5, 36);
-  background: linear-gradient(
-    90deg,
-    rgba(0, 5, 36, 1) 0%,
-    rgba(44, 52, 80, 1) 35%,
-    rgb(2, 18, 122) 75%,
-    rgba(22, 22, 22, 0.647) 100%
-  );
+  width: auto;
+  height: 100vh;
+  filter: blur(19x);
+  filter: blur(0px);
+  -webkit-filter: blur(0px);
+  background: url("../images/background.png") no-repeat center center;
+  background-size: cover;
   color: #e7e8e8;
+}
+
+.bida__content {
+  width: 55%;
+  margin: 4rem;
+  border: 1px solid blue;
+  border-radius: 2rem 0rem;
+}
+
+.bida__content h1 {
+  font-size: 5rem;
+  padding: 1rem;
+  font-weight: bold;
+}
+
+.bida__content p {
+  padding: 1rem;
+  font-size: large;
 }
 
 html,
@@ -47,10 +64,6 @@ li {
   background: #f3f5f8;
   margin: 0 2rem;
 }
-
-.logo_img {
-}
-
 .project__content {
   justify-content: center;
   margin: auto;

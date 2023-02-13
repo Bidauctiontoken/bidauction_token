@@ -32,7 +32,7 @@ function Project() {
   return (
     <div className="project__content">
       <div className="flex flex-col sm:flex-column justify-around items-center">
-        <div className="mb-20">{/* left hand side placeholder */}</div>
+        <div className="mb-5">{/* left hand side placeholder */}</div>
         <div className="action-card w-full sm:w-2/6 p-3 shadow-lg shadow-white-500 rounded bg-bgdark mt-20 box-shadow-lg">
           <h1 className="mb-3 font-bold">MIGRATE</h1>
           <>
@@ -95,12 +95,6 @@ function Project() {
               )}
             </div>
           </>
-        </div>
-        <div className="right_wing">
-          <p> right hand side placeholder right hand side placeholder</p>
-          <p> right hand side placeholder</p>
-          <p> right hand side placeholder</p>
-          <p> right hand side placeholder</p>
         </div>
       </div>
     </div>

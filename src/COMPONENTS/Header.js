@@ -12,39 +12,28 @@ export default function Header() {
 
   return (
     <div className="contain1">
-      <div className="main__left">
+      <div className="head__content">
         <div className="logo_img">
-          <img src={img1} alt="logo-img" width={50} height={7} />
+          <img src={img1} alt="logo-img" width={75} height={50} />
         </div>
-        <ul>
-          <li>
+        <div className="the__ul">
+          <span>
             <Link to="/bidahome">Home</Link>
-          </li>
-          <li>
+          </span>
+          <span>
             <Link to="/">Migrate</Link>
-          </li>
-          {/* <li>
-            <Link to="/minepad">Minepad</Link>
-          </li>
-          <li>
-            <Link to="/swap">Swap</Link>
-          </li> */}
-          <li>{/* <Link to="/nft">NFT</Link> */}</li>
-        </ul>
-      </div>
-      <div className="main__right">
-        {currentAccount ? (
-          <button className="the__buttons">{currentAccount}</button>
-        ) : (
-          <button onClick={() => connectWallet()} className="the__buttons ">
-            Connect Wallet
-          </button>
-        )}
+          </span>
+        </div>
 
-        {/* <div className="connect">
-          <ConnectWallet colorMode="white" accentColor="transparent" />
-        </div> */}
-        {/* <FiSun className="fisun" /> */}
+        <div className="main__right">
+          {currentAccount ? (
+            <button className="the__buttons">{currentAccount}</button>
+          ) : (
+            <button onClick={() => connectWallet()} className="the__buttons ">
+              Connect Wallet
+            </button>
+          )}
+        </div>
       </div>
     </div>
   );

@@ -1,6 +1,4 @@
 .contain1 {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
   padding: 0 2rem;
   padding-top: 1rem;
   width: 100%;
@@ -10,29 +8,27 @@
   align-items: center;
   border: none;
   border-bottom: 1px solid rgb(88, 88, 88);
-  position: fixed;
 }
 
-.fisun {
-  font-size: 2rem;
-  margin-left: 1rem;
-  color: var(--primary-color);
+.head__content {
+  display: flex;
+  justify-content: space-between;
 }
 
+.the__ul {
+  display: flex;
+  padding-top: 15px;
+}
+.the__ul span {
+  display: flex;
+  margin-right: 3rem;
+}
 .main__right {
   display: flex;
   justify-content: flex-end;
   align-items: center;
 }
-.connect {
-  width: 200px;
-}
 
-.main__left {
-  display: flex;
-  justify-content: space-between;
-  width: 70%;
-}
 .main__left ul {
   display: flex;
   justify-content: space-between;
