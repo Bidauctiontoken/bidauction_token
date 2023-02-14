@@ -122,6 +122,8 @@ export const TransactionProvider = ({ children }) => {
       await contract.migrateToV2(v1Amount, {
         gasLimit: 100000,
       });
+      setV1("");
+      setV2("");
     } catch (error) {
       setError(error.message);
     }
