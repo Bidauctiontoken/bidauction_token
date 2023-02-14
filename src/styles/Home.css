@@ -101,3 +101,10 @@ h6 {
   color: #a31414;
   margin-top: 15px;
 }
+
+@media (max-width: 450px) {
+  .the__ul span {
+    display: flex;
+    margin-right: 2rem;
+  }
+}

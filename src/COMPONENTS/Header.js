@@ -1,7 +1,5 @@
 // import { ConnectWallet, useAddress } from "@thirdweb-dev/react";
 import "../styles/Home.css";
-import { FiSun } from "react-icons/fi";
-// import Project from "./Pages/Project";
 import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { TransactionContext } from "../COMPONENTS/ReactContext/TransactionContext";
@@ -30,7 +28,7 @@ export default function Header() {
             <button className="the__buttons">{currentAccount}</button>
           ) : (
             <button onClick={() => connectWallet()} className="the__buttons ">
-              Connect Wallet
+              Connect
             </button>
           )}
         </div>

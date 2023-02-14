@@ -1,9 +1,11 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, CSSProperties } from "react";
 import { ethers } from "ethers";
 import MigrationContractAbi from "../Contract/abi.json";
-// import { useContract, useContractRead } from "@thirdweb-dev/react";
-// import Particles from "react-particles-js";
 import { TransactionContext } from "../ReactContext/TransactionContext";
+import Spinner from "../Pages/Spinner";
+import ClipLoader from "react-spinners/ClipLoader";
+import { css } from "@emotion/react";
+
 const MigrationContractAddress = "0x055A12C497E7DA8a0555a064712aE39aCbE7DbFa";
 
 //INSTANCES
@@ -15,6 +17,15 @@ let contract = new ethers.Contract(
   signer
 );
 function Project() {
+  // const [loading, setLoading] = useState(true);
+  const [color, setColor] = useState("#ffffff");
+  //spinner
+
+  const override = {
+    display: "block",
+    margin: "0 auto",
+    borderColor: "#ffff",
+  };
   const {
     ApproveTx,
     currentAccount,
@@ -27,6 +38,9 @@ function Project() {
     tokenv1Balance,
     tokenv2Balance,
     setV1,
+    spinLoading,
+    transactionCanceled,
+    loggedAccount,
   } = useContext(TransactionContext);
 
   return (
@@ -53,8 +67,9 @@ function Project() {
               />
               <button
                 className={
-                  `p-1 bg-dark rounded text-bold cursor-ponter d-inline absolute bottom-1 right-1 p-2 text-xs font-semibold hover:text-lighter`
-                  // "p-1 bg-dark rounded text-bold d-inline absolute bottom-1 right-1 p-2 text-xs font-semibold text-lighter cursor-not-allowed"
+                  loggedAccount
+                    ? `p-1 bg-dark rounded text-bold cursor-ponter d-inline absolute bottom-1 right-1 p-2 text-xs font-semibold hover:text-lighter`
+                    : "p-1 bg-dark rounded text-bold d-inline absolute bottom-1 right-1 p-2 text-xs font-semibold text-lighter cursor-not-allowed"
                 }
                 onClick={() => setV1(tokenv1Balance)}
               >
@@ -79,18 +94,51 @@ function Project() {
               />
 
               {allowTransaction ? (
-                <button
-                  onClick={() => ApproveTx()}
-                  className="bg-dark p-2 rounded w-full mt-10 text-lg font-semibold text-bold cursor-pointer shadow-lg py-4 hover:text-lighter"
-                >
-                  Approve
-                </button>
+                <>
+                  <button
+                    className={
+                      loggedAccount
+                        ? `bg-dark p-2 rounded w-full mt-10 text-lg font-semibold text-bold cursor-pointer shadow-lg py-4 hover:text-lighter`
+                        : "bg-dark p-2 rounded w-full mt-10 text-lg font-semibold text-bold cursor-not-allowed shadow-lg py-4 hover:text-lighter"
+                    }
+                    onClick={() => ApproveTx()}
+                    disabled={!loggedAccount}
+                    // disabled={!allowTransaction}
+                  >
+                    {spinLoading ? (
+                      <div className="spinnerbtn">
+                        <ClipLoader
+                          color={color}
+                          cssOverride={override}
+                          loading={spinLoading}
+                          size={35}
+                        />
+                        <p>Approve...</p>
+                      </div>
+                    ) : (
+                      "Approve"
+                    )}
+                  </button>
+                </>
               ) : (
                 <button
                   onClick={() => handleMigrate()}
                   className="bg-dark p-2 rounded w-full mt-10 text-lg font-semibold text-bold cursor-pointer shadow-lg py-4 hover:text-lighter"
+                  // disabled={!allowTransaction}
                 >
-                  Migrate
+                  {spinLoading ? (
+                    <div className="spinnerbtn">
+                      <ClipLoader
+                        color={color}
+                        cssOverride={override}
+                        loading={spinLoading}
+                        size={35}
+                      />
+                      <p>Migrating...</p>
+                    </div>
+                  ) : (
+                    "Migtrate"
+                  )}
                 </button>
               )}
             </div>
