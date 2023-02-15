@@ -5,6 +5,7 @@ import { TransactionContext } from "../ReactContext/TransactionContext";
 import Spinner from "../Pages/Spinner";
 import ClipLoader from "react-spinners/ClipLoader";
 import { css } from "@emotion/react";
+import Countdown from "./Coundown";
 
 const MigrationContractAddress = "0x055A12C497E7DA8a0555a064712aE39aCbE7DbFa";
 
@@ -16,6 +17,7 @@ let contract = new ethers.Contract(
   MigrationContractAbi,
   signer
 );
+
 function Project() {
   // const [loading, setLoading] = useState(true);
   const [color, setColor] = useState("#ffffff");
@@ -33,6 +35,7 @@ function Project() {
     v2,
     handleMigrate,
     handleV1Change,
+    handleMaxChange,
     allowTransaction,
     AllowanceCheck,
     tokenv1Balance,
@@ -41,13 +44,29 @@ function Project() {
     spinLoading,
     transactionCanceled,
     loggedAccount,
+    success,
+    error,
   } = useContext(TransactionContext);
 
   return (
     <div className="project__content">
+      <>
+        {success && (
+          <div className="transaction__popup">
+            <p>Migration {v1} to Bida V2 successful! 🤑</p>
+          </div>
+        )}
+        {error && (
+          <div className="transaction__error__popup">
+            <p>Migration Not successful! ✖️</p>
+          </div>
+        )}
+      </>
+
       <div className="flex flex-col sm:flex-column justify-around items-center">
         <div className="mb-5">{/* left hand side placeholder */}</div>
-        <div className="action-card w-full sm:w-2/6 p-3 shadow-lg shadow-white-500 rounded bg-bgdark mt-20 box-shadow-lg">
+        <div className="mt-10">{/* <Countdown /> */}</div>
+        <div className="action-card w-full sm:w-2/6 p-3 shadow-lg shadow-white-500 rounded bg-bgdark mt-5 box-shadow-lg">
           <h1 className="mb-3 font-bold">MIGRATE</h1>
           <>
             <div className="flex flex-col mb-5 relative">
@@ -71,7 +90,7 @@ function Project() {
                     ? `p-1 bg-dark rounded text-bold cursor-ponter d-inline absolute bottom-1 right-1 p-2 text-xs font-semibold hover:text-lighter`
                     : "p-1 bg-dark rounded text-bold d-inline absolute bottom-1 right-1 p-2 text-xs font-semibold text-lighter cursor-not-allowed"
                 }
-                onClick={() => setV1(tokenv1Balance)}
+                onClick={() => handleMaxChange(tokenv1Balance)}
               >
                 MAX
               </button>
@@ -121,28 +140,50 @@ function Project() {
                   </button>
                 </>
               ) : (
-                <button
-                  onClick={() => handleMigrate()}
-                  className="bg-dark p-2 rounded w-full mt-10 text-lg font-semibold text-bold cursor-pointer shadow-lg py-4 hover:text-lighter"
-                  // disabled={!allowTransaction}
-                >
-                  {spinLoading ? (
-                    <div className="spinnerbtn">
-                      <ClipLoader
-                        color={color}
-                        cssOverride={override}
-                        loading={spinLoading}
-                        size={35}
-                      />
-                      <p>Migrating...</p>
-                    </div>
-                  ) : (
-                    "Migtrate"
-                  )}
-                </button>
+                <>
+                  <button
+                    onClick={() => handleMigrate()}
+                    className={
+                      loggedAccount
+                        ? `bg-dark p-2 rounded w-full mt-10 text-lg font-semibold text-bold cursor-pointer shadow-lg py-4 hover:text-lighter`
+                        : "bg-dark p-2 rounded w-full mt-10 text-lg font-semibold text-bold cursor-not-allowed shadow-lg py-4 hover:text-lighter"
+                    }
+                    // disabled={!allowTransaction}
+                  >
+                    {spinLoading ? (
+                      <div className="spinnerbtn">
+                        <ClipLoader
+                          color={color}
+                          cssOverride={override}
+                          loading={spinLoading}
+                          size={35}
+                        />
+                        <p>Migrating...</p>
+                      </div>
+                    ) : (
+                      "Migrate"
+                    )}
+                  </button>
+                </>
               )}
             </div>
           </>
+        </div>
+        <div className="bida__content">
+          <iframe
+            src="https://www.youtube.com/embed/DMWa8vspIoQ"
+            title="Video: BIDA USD Charts and Auction Prices"
+            width="320"
+            height="340"
+            frameborder="0"
+            allowfullscreen
+          ></iframe>
+
+          <p>
+            Track current Bid Auction prices in real-time with historical BIDA
+            USD charts, liquidity, and volume. Get top exchanges, markets, and
+            more.
+          </p>
         </div>
       </div>
     </div>

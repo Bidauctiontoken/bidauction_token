@@ -2,19 +2,19 @@ import "./styles/Home.css";
 import Header from "./COMPONENTS/Header";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Project from "./COMPONENTS/Pages/Project";
-import BidaHome from "./COMPONENTS/Pages/BidaHome";
 // import Swap from "./COMPONENTS/Pages/Swap";
 
+import { Web3ReactProvider } from "@web3-react/core";
+import { Web3Provider } from "@ethersproject/providers";
 
-export default function Home() {
+export default function Home(provider) {
+  
   return (
     <>
       <Router>
         <Header />
         <Routes>
           <Route path="/" element={<Project />} />
-          <Route path="/bidahome" element={<BidaHome />} />
-          {/* <Route path="/swap" element={<Swap />} /> */}
         </Routes>
       </Router>
     </>

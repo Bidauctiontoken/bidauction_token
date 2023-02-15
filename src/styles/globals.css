@@ -4,7 +4,6 @@
 
 body {
   width: auto;
-  height: 100vh;
   filter: blur(19x);
   filter: blur(0px);
   -webkit-filter: blur(0px);
@@ -13,22 +12,57 @@ body {
   color: #e7e8e8;
 }
 
-.bida__content {
-  width: 55%;
-  margin: 4rem;
-  border: 1px solid blue;
-  border-radius: 2rem 0rem;
+.transaction__popup {
+  display: flex;
+  position: absolute;
+  background-color: green;
+  padding: 5px;
+  width: 20%;
+  margin-left: 79%;
+  margin-top: 1rem;
+  border-radius: 0.5rem;
+  justify-content: center;
+  align-items: center;
+  transition: opacity 0.2s ease-out;
+  opacity: 1;
+}
+.transaction__popup p {
+  color: #fff;
+  padding-top: 1rem;
 }
 
-.bida__content h1 {
-  font-size: 5rem;
-  padding: 1rem;
-  font-weight: bold;
+.transaction__error__popup p {
+  color: #fff;
+  padding-top: 1rem;
+}
+
+.transaction__error__popup {
+  display: flex;
+  position: absolute;
+  background-color: rgb(128, 0, 0);
+  padding: 5px;
+  width: 20%;
+  margin-left: 79%;
+  margin-top: 1rem;
+  border-radius: 0.5rem;
+  justify-content: center;
+  align-items: center;
+  transition: opacity 0.2s ease-out;
+  opacity: 1;
+}
+
+.bida__content {
+  display: flex;
+  flex-direction: column;
+  width: 40%;
+  justify-content: center;
+  align-items: center;
+  margin: 4rem;
 }
 
 .bida__content p {
-  padding: 1rem;
   font-size: large;
+  color: #fff;
 }
 
 html,
@@ -82,7 +116,13 @@ li {
 @media (max-width: 700px) {
   .project__content {
     justify-content: space-between;
-    margin: 3rem;
+    margin: 4rem;
+  }
+  .bida__content {
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    margin: 2rem;
   }
 }
 

@@ -5,8 +5,6 @@ import { ethers } from "ethers";
 import routerAbi from "../Contract/abi.json";
 import approveAbi from "../Contract/approve.json";
 import MigrationContractAbi from "../Contract/abi.json";
-import { useContract, useContractRead } from "@thirdweb-dev/react";
-import ClipLoader from "react-spinners/ClipLoader";
 
 import { css } from "@emotion/react";
 
@@ -14,15 +12,17 @@ export const TransactionContext = createContext({});
 export const TransactionProvider = ({ children }) => {
   const [currentAccount, setCurrentAccount] = useState("");
   const [loggedAccount, setloggedAccount] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
   const [tokenv1Balance, setTokenv1Balance] = useState("");
   const [tokenv2Balance, setTokenv2Balance] = useState("");
+  const [isLoaded, setIsLoaded] = useState(false);
   const [v1, setV1] = useState("");
   const [v2, setV2] = useState("");
   const [allowTransaction, setAllowTransaction] = useState(true);
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState(false);
+
   // /""INTERNAL............................
   const MigrationContractAddress = "0x00Be416a7A36D4BC479d90CB3a4986E4f3720d71";
-
 
   let [spinLoading, setSpinLoading] = useState(false);
   // let [color, setColor] = useState("#ffff");
@@ -44,66 +44,120 @@ export const TransactionProvider = ({ children }) => {
   let accounts;
 
   const connectWallet = async () => {
-    // setIsLoading(true);
     if (typeof window.ethereum !== "undefined")
       try {
+        await handleState();
+        setloggedAccount(accounts[0]);
+        setCurrentAccount(
+          `${accounts[0].substr(0, 4)}...${accounts[0].substr(-4)}`
+        );
+      } catch (error) {}
+    // }
+    console.log(isLoaded, ": inetw");
+    // setLogOut(accounts[0]);
+
+    // Store the wallet connection data in localStorage
+    // localStorage.setItem(
+    //   "walletConnectionData",
+    //   JSON.stringify({
+    //     accounts,
+    //     // other necessary information
+    //   })
+    // );
+
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const balance = await provider.getBalance(accounts[0]);
+    const curbal = ethers.utils.formatEther(balance, "ether");
+    const etherbal = parseFloat(curbal.toString());
+    const roundedbal = etherbal.toFixed(4);
+
+    // setAccountBal(roundedbal);
+    // setAddress(`${accounts[0].substr(0, 4)}...${accounts[0].substr(-4)}`);
+    // await AllowanceCheck();
+    const tV1 = await contract.tokenV1();
+    const tokenV2 = await contract.tokenV2();
+    tokenV1Contract = new ethers.Contract(tV1, approveAbi, signer);
+    tokenV2Contract = new ethers.Contract(tokenV2, approveAbi, signer);
+    const maxAllowanceRemaining = await tokenV1Contract.allowance(
+      accounts[0],
+      MigrationContractAddress
+    );
+
+    //TOKENV1 BALANCE
+    const userBalanceTokenV1 = await tokenV1Contract.balanceOf(accounts[0]);
+    const tokenV1UserCOnvertdBalance =
+      ethers.utils.formatUnits(userBalanceTokenV1);
+    setTokenv1Balance(tokenV1UserCOnvertdBalance.toString());
+
+    //TOKENV2 BALANCE
+    const userBalanceTokenV2 = await tokenV2Contract.balanceOf(accounts[0]);
+    const tokenV2UserCOnvertdBalance = ethers.utils.formatUnits(
+      userBalanceTokenV2.toString()
+    );
+    setTokenv2Balance(tokenV2UserCOnvertdBalance.toString());
+
+    if (maxAllowanceRemaining <= userBalanceTokenV1) {
+      // the approval button should show
+      setAllowTransaction(false);
+    } else {
+      // the approval button should not show
+      setAllowTransaction(true);
+    }
+  };
+
+  const handleState = async () => {
+    try {
+      if (!isLoaded) {
         // if (!window.ethereum) return alert("Please install MetaMask");
         accounts = await window.ethereum.request({
           method: "eth_requestAccounts",
         });
-        setloggedAccount(accounts[0]);
 
-        setCurrentAccount(
-          `${accounts[0].substr(0, 4)}...${accounts[0].substr(-4)}`
-        );
-
-        const provider = new ethers.providers.Web3Provider(window.ethereum);
-        const balance = await provider.getBalance(accounts[0]);
-        const curbal = ethers.utils.formatEther(balance, "ether");
-        const etherbal = parseFloat(curbal.toString());
-        const roundedbal = etherbal.toFixed(4);
-
-        // setAccountBal(roundedbal);
-        // setAddress(`${accounts[0].substr(0, 4)}...${accounts[0].substr(-4)}`);
-        // await AllowanceCheck();
-        const tV1 = await contract.tokenV1();
-        const tokenV2 = await contract.tokenV2();
-        tokenV1Contract = new ethers.Contract(tV1, approveAbi, signer);
-        tokenV2Contract = new ethers.Contract(
-          tokenV2,
-          approveAbi,
-          signer
-        );
-        const maxAllowanceRemaining = await tokenV1Contract.allowance(
-          accounts[0],
-          MigrationContractAddress
-        );
-
-        //TOKENV1 BALANCE
-        const userBalanceTokenV1 = await tokenV1Contract.balanceOf(accounts[0]);
-        const tokenV1UserCOnvertdBalance =
-          ethers.utils.formatUnits(userBalanceTokenV1);
-        setTokenv1Balance(tokenV1UserCOnvertdBalance.toString());
-          
-        //TOKENV2 BALANCE
-        const userBalanceTokenV2 = await tokenV2Contract.balanceOf(accounts[0]);
-        const tokenV2UserCOnvertdBalance = ethers.utils.formatUnits(
-          userBalanceTokenV2.toString()
-        );
-        setTokenv2Balance(tokenV2UserCOnvertdBalance.toString());
-
-        if (maxAllowanceRemaining <= userBalanceTokenV1) {
-          // the approval button should show
-          setAllowTransaction(false);
-        } else {
-          // the approval button should not show
-          setAllowTransaction(true);
-        }
-        setIsLoading(false);
-      } catch (error) {}
+        setIsLoaded(true);
+      }
+    } catch (error) {}
   };
 
-  ///HANDLECHANGE
+  //DISCONNECT WALLET
+  // const disconnect = async () => {
+  //   try {
+  //     if (isLoaded) {
+  //       // localStorage.setItem("isWalletConnected", "false");
+  //       setloggedAccount(null);
+  //       setCurrentAccount(null);
+  //       setTokenv1Balance(null);
+  //       setTokenv2Balance(null);
+  //       setIsLoaded(false);
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  //   console.log("disconnect");
+  // };
+
+  //RECONNECT AFTER REFRESH
+  // useEffect(() => {
+  //   const connectWalletOnPageLoad = async () => {
+  //     if (localStorage?.getItem("isWalletConnected") === "true") {
+  //       try {
+  //         await window.ethereum.request({
+  //           method: "eth_requestAccounts",
+  //         });
+  //         localStorage.setItem("isWalletConnected", true);
+  //       } catch (ex) {
+  //         console.log(ex);
+  //       }
+  //     }
+  //   };
+  //   connectWalletOnPageLoad();
+  //   // connectWallet();
+  // }, []);
+
+  const handleMaxChange = async (e) => {
+    console.log("handling v1");
+    setV1(e);
+    setV2(e);
+  };
   const handleV1Change = async (e) => {
     setV1(e.target.value);
     setV2(e.target.value);
@@ -114,12 +168,12 @@ export const TransactionProvider = ({ children }) => {
     setSpinLoading(true);
     try {
       const v1Amount = ethers.utils.parseUnits(v1, "ether");
+      console.log(v1, "user input v1");
       const tx = await contract.migrateToV2(v1Amount, {
         gasLimit: 500000,
       });
       setV1("");
       setV2("");
-
       // Get the transaction receipt
       const receipt = await tx.wait();
 
@@ -144,7 +198,6 @@ export const TransactionProvider = ({ children }) => {
           ethers.utils.formatUnits(userBalanceTokenV1);
         setTokenv1Balance(tokenV1UserCOnvertdBalance.toString());
 
-
         //TOKENV2 BALANCE
         const userBalanceTokenV2 = await tokenV2Contract.balanceOf(
           loggedAccount
@@ -153,12 +206,24 @@ export const TransactionProvider = ({ children }) => {
           userBalanceTokenV2.toString()
         );
         setTokenv2Balance(tokenV2UserCOnvertdBalance.toString());
-        
+
+        setSuccess(true);
+        setTimeout(() => {
+          setSuccess(false);
+        }, 5000);
       } else {
         console.log("Transaction failed.");
+        setError(true);
+        setTimeout(() => {
+          setError(false);
+        }, 5000);
       }
     } catch (err) {
-      // setError(error.message);
+      console.log(err, "Transaction failed Transaction failed..");
+      setError(true);
+      setTimeout(() => {
+        setError(false);
+      }, 5000);
     }
     setSpinLoading(false);
   };
@@ -196,6 +261,10 @@ export const TransactionProvider = ({ children }) => {
   return (
     <TransactionContext.Provider
       value={{
+        // switchAccount,
+        // disconnect,
+        success,
+        error,
         connectWallet,
         ApproveTx,
         currentAccount,
@@ -203,11 +272,12 @@ export const TransactionProvider = ({ children }) => {
         v2,
         handleMigrate,
         handleV1Change,
+        handleMaxChange,
         allowTransaction,
         tokenv1Balance,
         tokenv2Balance,
         setV1,
-        accounts,
+        // accounts,
         spinLoading,
         loggedAccount,
       }}
