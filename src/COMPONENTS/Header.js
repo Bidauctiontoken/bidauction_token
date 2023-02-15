@@ -2,20 +2,30 @@
 import { useWeb3React } from "@web3-react/core";
 import "../styles/Home.css";
 import { Link } from "react-router-dom";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { TransactionContext } from "../COMPONENTS/ReactContext/TransactionContext";
 import img1 from "../images/logo.png";
 
 export default function Header() {
   const { active, deactivate } = useWeb3React();
+  const [isWalletConnected, setIsWalletConnected] = useState();
 
-  const handleDisconnect = () => {
-    if (active) {
-      deactivate();
-      localStorage.setItem("isWalletConnected", false);
+  const handleDisconnect = async () => {
+    if (window.ethereum) {
+      try {
+        await window.ethereum.request({
+          method: "wallet_requestPermissions",
+          params: [{ eth_accounts: {} }],
+        });
+        setIsWalletConnected(false);
+      } catch (err) {
+        console.error(err);
+        console.log("i got here");
+      }
     }
-    console.log("i am clicking");
   };
+
+
 
   const { connectWallet, currentAccount, switchAccount } =
     useContext(TransactionContext);
@@ -35,17 +45,16 @@ export default function Header() {
         <div className="main__right">
           {currentAccount ? (
             <>
-              <button className="the__buttons">{currentAccount}</button>
-              {/* <button
-                onClick={() => handleDisconnect()}
-                className="the__buttons "
-              >
-                disc
-              </button> */}
+              <div className="the__buttons">
+                <button className="buttons">{currentAccount}</button>
+                <button onClick={() => handleDisconnect()} className="switch__buttons">
+                  Switch Acccount
+                </button>
+              </div>
             </>
           ) : (
             <button onClick={() => connectWallet()} className="the__buttons ">
-              Connect
+              Connect Wallet
             </button>
           )}
         </div>

@@ -7,7 +7,7 @@ import approveAbi from "../Contract/approve.json";
 import MigrationContractAbi from "../Contract/abi.json";
 
 import { css } from "@emotion/react";
-
+import { useWeb3React } from "@web3-react/core";
 export const TransactionContext = createContext({});
 export const TransactionProvider = ({ children }) => {
   const [currentAccount, setCurrentAccount] = useState("");
@@ -20,6 +20,9 @@ export const TransactionProvider = ({ children }) => {
   const [allowTransaction, setAllowTransaction] = useState(true);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
+
+  const { active, account, library, connector, activate, deactivate } =
+    useWeb3React();
 
   // /""INTERNAL............................
   const MigrationContractAddress = "0x00Be416a7A36D4BC479d90CB3a4986E4f3720d71";
@@ -71,9 +74,6 @@ export const TransactionProvider = ({ children }) => {
     const etherbal = parseFloat(curbal.toString());
     const roundedbal = etherbal.toFixed(4);
 
-    // setAccountBal(roundedbal);
-    // setAddress(`${accounts[0].substr(0, 4)}...${accounts[0].substr(-4)}`);
-    // await AllowanceCheck();
     const tV1 = await contract.tokenV1();
     const tokenV2 = await contract.tokenV2();
     tokenV1Contract = new ethers.Contract(tV1, approveAbi, signer);
@@ -118,43 +118,7 @@ export const TransactionProvider = ({ children }) => {
     } catch (error) {}
   };
 
-  //DISCONNECT WALLET
-  // const disconnect = async () => {
-  //   try {
-  //     if (isLoaded) {
-  //       // localStorage.setItem("isWalletConnected", "false");
-  //       setloggedAccount(null);
-  //       setCurrentAccount(null);
-  //       setTokenv1Balance(null);
-  //       setTokenv2Balance(null);
-  //       setIsLoaded(false);
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  //   console.log("disconnect");
-  // };
-
-  //RECONNECT AFTER REFRESH
-  // useEffect(() => {
-  //   const connectWalletOnPageLoad = async () => {
-  //     if (localStorage?.getItem("isWalletConnected") === "true") {
-  //       try {
-  //         await window.ethereum.request({
-  //           method: "eth_requestAccounts",
-  //         });
-  //         localStorage.setItem("isWalletConnected", true);
-  //       } catch (ex) {
-  //         console.log(ex);
-  //       }
-  //     }
-  //   };
-  //   connectWalletOnPageLoad();
-  //   // connectWallet();
-  // }, []);
-
   const handleMaxChange = async (e) => {
-    console.log("handling v1");
     setV1(e);
     setV2(e);
   };

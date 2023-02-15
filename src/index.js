@@ -22,6 +22,11 @@ import "./styles/globals.css";
 import { TransactionProvider } from "./COMPONENTS/ReactContext/TransactionContext";
 import { Web3ReactProvider } from "@web3-react/core";
 import { Web3Provider } from "@ethersproject/providers";
+
+// function getLibrary(provider) {
+//   return new Web3(provider)
+// }
+
 const container = document.getElementById("root");
 const root = createRoot(container);
 

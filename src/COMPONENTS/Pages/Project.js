@@ -173,12 +173,11 @@ function Project() {
           <iframe
             src="https://www.youtube.com/embed/DMWa8vspIoQ"
             title="Video: BIDA USD Charts and Auction Prices"
-            width="320"
+            width="400"
             height="340"
             frameborder="0"
             allowfullscreen
           ></iframe>
-
           <p>
             Track current Bid Auction prices in real-time with historical BIDA
             USD charts, liquidity, and volume. Get top exchanges, markets, and

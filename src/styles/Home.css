@@ -52,19 +52,31 @@
   --box-shadow: 1rem 1rem 1rem var(--shadow-dark-color),
     -1rem -1rem 1rem var(--shadow-light-color);
 }
+.buttons {
+  padding-right: 0.5rem;
+  border-right: 2px solid rgb(6, 6, 139);
+  color: gray;
+}
+
+.switch__buttons {
+  padding-left: 0.5rem;
+}
+.wallet__button {
+  background-color: transparent;
+  border-radius: var(--border-radius);
+  border: var(--border);
+}
 
 .the__buttons {
   background-color: transparent;
   border-radius: var(--border-radius);
   border: var(--border);
   color: var(--primary-color);
+  color: #fff;
   padding: 0.5rem;
-  /* box-shadow: var(--box-shadow); */
   cursor: pointer;
 }
-.the__buttons:hover {
-  color: var(--hover-color);
-}
+
 a {
   margin-left: 5px;
   list-style: none;
