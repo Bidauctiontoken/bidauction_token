@@ -20,7 +20,7 @@ export const TransactionProvider = ({ children }) => {
   const [allowTransaction, setAllowTransaction] = useState(true);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
-  const [first, setfirst] = useState("")
+  const [first, setfirst] = useState("");
 
   const { active, account, library, connector, activate, deactivate } =
     useWeb3React();
@@ -57,17 +57,7 @@ export const TransactionProvider = ({ children }) => {
         );
       } catch (error) {}
     // }
-    console.log(isLoaded, ": inetw");
     // setLogOut(accounts[0]);
-
-    // Store the wallet connection data in localStorage
-    // localStorage.setItem(
-    //   "walletConnectionData",
-    //   JSON.stringify({
-    //     accounts,
-    //     // other necessary information
-    //   })
-    // );
 
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const balance = await provider.getBalance(accounts[0]);
@@ -83,7 +73,6 @@ export const TransactionProvider = ({ children }) => {
       accounts[0],
       MigrationContractAddress
     );
-    console.log(tV1, "first");
 
     //TOKENV1 BALANCE
     const userBalanceTokenV1 = await tokenV1Contract.balanceOf(accounts[0]);
@@ -134,11 +123,10 @@ export const TransactionProvider = ({ children }) => {
     setSpinLoading(true);
     try {
       const v1Amount = ethers.utils.parseUnits(v1, "ether");
-      console.log(v1, "user input v1");
       const tx = await contract.migrateToV2(v1Amount, {
         gasLimit: 500000,
       });
-      setfirst(v1)
+      setfirst(v1);
       setV1("");
       setV2("");
       // Get the transaction receipt
@@ -146,7 +134,6 @@ export const TransactionProvider = ({ children }) => {
 
       // Check if the transaction was successful
       if (receipt.status === 1) {
-        console.log("Transaction successful. Hash:", receipt.transactionHash);
         setAllowTransaction(false);
         const tV1 = await contract.tokenV1();
         const tokenV2 = await contract.tokenV2();
@@ -179,14 +166,12 @@ export const TransactionProvider = ({ children }) => {
           setSuccess(false);
         }, 5000);
       } else {
-        console.log("Transaction failed.");
         setError(true);
         setTimeout(() => {
           setError(false);
         }, 5000);
       }
     } catch (err) {
-      console.log(err, "Transaction failed Transaction failed..");
       setError(true);
       setTimeout(() => {
         setError(false);
@@ -214,22 +199,16 @@ export const TransactionProvider = ({ children }) => {
 
       // Check if the transaction was successful
       if (receipt.status === 1) {
-        console.log("Transaction successful. Hash:", receipt.transactionHash);
         setAllowTransaction(false);
       } else {
-        console.log("Transaction failed.");
       }
-    } catch (err) {
-      console.log("Error:", err);
-    }
+    } catch (err) {}
     setSpinLoading(false);
   };
 
   return (
     <TransactionContext.Provider
       value={{
-        // switchAccount,
-        // disconnect,
         first,
         success,
         error,
