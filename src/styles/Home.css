@@ -120,3 +120,9 @@ h6 {
     margin-right: 2rem;
   }
 }
+
+@media (max-width: 430px) {
+  .buttons {
+    display: none;
+  }
+}

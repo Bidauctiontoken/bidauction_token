@@ -20,6 +20,7 @@ export const TransactionProvider = ({ children }) => {
   const [allowTransaction, setAllowTransaction] = useState(true);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
+  const [first, setfirst] = useState("")
 
   const { active, account, library, connector, activate, deactivate } =
     useWeb3React();
@@ -82,6 +83,7 @@ export const TransactionProvider = ({ children }) => {
       accounts[0],
       MigrationContractAddress
     );
+    console.log(tV1, "first");
 
     //TOKENV1 BALANCE
     const userBalanceTokenV1 = await tokenV1Contract.balanceOf(accounts[0]);
@@ -136,6 +138,7 @@ export const TransactionProvider = ({ children }) => {
       const tx = await contract.migrateToV2(v1Amount, {
         gasLimit: 500000,
       });
+      setfirst(v1)
       setV1("");
       setV2("");
       // Get the transaction receipt
@@ -227,6 +230,7 @@ export const TransactionProvider = ({ children }) => {
       value={{
         // switchAccount,
         // disconnect,
+        first,
         success,
         error,
         connectWallet,

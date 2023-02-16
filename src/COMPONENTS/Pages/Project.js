@@ -2,10 +2,8 @@ import { useState, useEffect, useContext, CSSProperties } from "react";
 import { ethers } from "ethers";
 import MigrationContractAbi from "../Contract/abi.json";
 import { TransactionContext } from "../ReactContext/TransactionContext";
-import Spinner from "../Pages/Spinner";
 import ClipLoader from "react-spinners/ClipLoader";
 import { css } from "@emotion/react";
-import Countdown from "./Coundown";
 
 const MigrationContractAddress = "0x055A12C497E7DA8a0555a064712aE39aCbE7DbFa";
 
@@ -21,6 +19,7 @@ let contract = new ethers.Contract(
 function Project() {
   // const [loading, setLoading] = useState(true);
   const [color, setColor] = useState("#ffffff");
+  const [countDownActive, setCountDownActive] = useState(false);
   //spinner
 
   const override = {
@@ -46,21 +45,24 @@ function Project() {
     loggedAccount,
     success,
     error,
+    first,
   } = useContext(TransactionContext);
 
   return (
     <div className="project__content">
       <>
-        {success && (
-          <div className="transaction__popup">
-            <p>Migration {v1} to Bida V2 successful! 🤑</p>
-          </div>
-        )}
-        {error && (
-          <div className="transaction__error__popup">
-            <p>Migration Not successful! ✖️</p>
-          </div>
-        )}
+        <div className="notification">
+          {success && (
+            <div className="transaction__popup">
+              <p>Migration {v1} to Bida V2 successful! </p>
+            </div>
+          )}
+          {error && (
+            <div className="transaction__error__popup">
+              <p>Migration Not successful! </p>
+            </div>
+          )}
+        </div>
       </>
 
       <div className="flex flex-col sm:flex-column justify-around items-center">
@@ -169,7 +171,7 @@ function Project() {
             </div>
           </>
         </div>
-        <div className="bida__content">
+        <div className="bida__video__content">
           <iframe
             src="https://www.youtube.com/embed/DMWa8vspIoQ"
             title="Video: BIDA USD Charts and Auction Prices"
