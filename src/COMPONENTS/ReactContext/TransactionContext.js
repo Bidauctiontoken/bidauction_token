@@ -17,10 +17,9 @@ export const TransactionProvider = ({ children }) => {
   const [allowTransaction, setAllowTransaction] = useState(true);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
-  const [first, setfirst] = useState("")
+  const [first, setfirst] = useState("");
 
-  const { active, account, library, connector, activate, deactivate } =
-    useWeb3React();
+  const [isWalletConnected, setIsWalletConnected] = useState();
 
   // /""INTERNAL............................
   const MigrationContractAddress = "0x00Be416a7A36D4BC479d90CB3a4986E4f3720d71";
@@ -86,10 +85,25 @@ export const TransactionProvider = ({ children }) => {
 
     if (maxAllowanceRemaining <= userBalanceTokenV1) {
       // the approval button should show
-      setAllowTransaction(false);
+      setAllowTransaction(true);
     } else {
       // the approval button should not show
-      setAllowTransaction(true);
+      setAllowTransaction(false);
+    }
+  };
+
+  const handleSwitchAccounts = async () => {
+    if (window.ethereum) {
+      try {
+        await window.ethereum.request({
+          method: "wallet_requestPermissions",
+          params: [{ eth_accounts: {} }],
+        });
+        setIsWalletConnected(false);
+      } catch (err) {
+        console.error(err);
+        console.log("i got here");
+      }
     }
   };
 
@@ -123,7 +137,7 @@ export const TransactionProvider = ({ children }) => {
       const tx = await contract.migrateToV2(v1Amount, {
         gasLimit: 500000,
       });
-      setfirst(v1)
+      setfirst(v1);
       setV1("");
       setV2("");
       // Get the transaction receipt
@@ -208,6 +222,7 @@ export const TransactionProvider = ({ children }) => {
       value={{
         // switchAccount,
         // disconnect,
+        handleSwitchAccounts,
         first,
         success,
         error,
