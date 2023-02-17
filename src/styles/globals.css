@@ -51,7 +51,7 @@ body {
   opacity: 1;
 }
 
-.bida__content {
+.bida__video__content {
   display: flex;
   flex-direction: column;
   width: 40%;
@@ -111,10 +111,9 @@ li {
   font-size: 1.4rem;
 }
 
-@media (max-width: 700px) {
+/* @media (max-width: 700px) {
   .project__content {
     justify-content: space-between;
-    /* margin: 3rem; */
   }
   .bida__content {
     width: 100%;
@@ -147,10 +146,10 @@ li {
     width: 100%;
     justify-content: center;
     align-items: center;
-    margin: 2rem;
+    margin: 4rem;
   }
 }
 
 .right_wing {
   margin-top: 2rem;
-}
+} */

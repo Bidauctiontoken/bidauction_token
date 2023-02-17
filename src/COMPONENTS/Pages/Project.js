@@ -5,7 +5,7 @@ import { TransactionContext } from "../ReactContext/TransactionContext";
 import Spinner from "../Pages/Spinner";
 import ClipLoader from "react-spinners/ClipLoader";
 import { css } from "@emotion/react";
-import Countdown from "./Coundown";
+// import Countdown from "./Coundown";
 
 const MigrationContractAddress = "0x055A12C497E7DA8a0555a064712aE39aCbE7DbFa";
 
@@ -169,7 +169,7 @@ function Project() {
             </div>
           </>
         </div>
-        <div className="bida__content">
+        <div className="bida__video__content">
           <iframe
             src="https://www.youtube.com/embed/DMWa8vspIoQ"
             title="Video: BIDA USD Charts and Auction Prices"
