@@ -8,21 +8,6 @@ export default function Header() {
   const { connectWallet, currentAccount, handleSwitchAccounts } =
     useContext(TransactionContext);
 
-  // const handleSwitchAccounts = async () => {
-  //   if (window.ethereum) {
-  //     try {
-  //       await window.ethereum.request({
-  //         method: "wallet_requestPermissions",
-  //         params: [{ eth_accounts: {} }],
-  //       });
-  //       setIsWalletConnected(false);
-  //     } catch (err) {
-  //       console.error(err);
-  //       console.log("i got here");
-  //     }
-  //   }
-  // };
-
   return (
     <div className="contain1">
       <div className="head__content">
