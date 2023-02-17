@@ -121,7 +121,7 @@ function Project() {
                         : "bg-dark p-2 rounded w-full mt-10 text-lg font-semibold text-bold cursor-not-allowed shadow-lg py-4 hover:text-lighter"
                     }
                     onClick={() => ApproveTx()}
-                    disabled={!loggedAccount}
+                    // disabled={!loggedAccount}
                     // disabled={!allowTransaction}
                   >
                     {spinLoading ? (

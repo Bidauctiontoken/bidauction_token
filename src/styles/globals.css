@@ -111,7 +111,7 @@ li {
   font-size: 1.4rem;
 }
 
-/* @media (max-width: 700px) {
+@media (max-width: 700px) {
   .project__content {
     justify-content: space-between;
   }
@@ -152,4 +152,4 @@ li {
 
 .right_wing {
   margin-top: 2rem;
-} */
+}
