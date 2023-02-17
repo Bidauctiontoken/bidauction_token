@@ -17,6 +17,7 @@ let contract = new ethers.Contract(
 );
 
 function Project() {
+  // const [loading, setLoading] = useState(true);
   const [color, setColor] = useState("#ffffff");
   const [countDownActive, setCountDownActive] = useState(false);
   //spinner

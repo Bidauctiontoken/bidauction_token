@@ -9,8 +9,9 @@ import img1 from "../images/logo.png";
 export default function Header() {
   const { active, deactivate } = useWeb3React();
   const [isWalletConnected, setIsWalletConnected] = useState();
+  const { connectWallet, currentAccount } = useContext(TransactionContext);
 
-  const handleDisconnect = async () => {
+  const handleSwitchAccounts = async () => {
     if (window.ethereum) {
       try {
         await window.ethereum.request({
@@ -24,11 +25,6 @@ export default function Header() {
       }
     }
   };
-
-
-
-  const { connectWallet, currentAccount, switchAccount } =
-    useContext(TransactionContext);
 
   return (
     <div className="contain1">
@@ -47,7 +43,10 @@ export default function Header() {
             <>
               <div className="the__buttons">
                 <button className="buttons">{currentAccount}</button>
-                <button onClick={() => handleDisconnect()} className="switch__buttons">
+                <button
+                  onClick={() => handleSwitchAccounts()}
+                  className="switch__buttons"
+                >
                   Switch Acccount
                 </button>
               </div>

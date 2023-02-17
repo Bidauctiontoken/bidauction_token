@@ -121,8 +121,8 @@ h6 {
   }
 }
 
-@media (max-width: 430px) {
+/* @media (max-width: 430px) {
   .buttons {
     display: none;
   }
-}
+} */

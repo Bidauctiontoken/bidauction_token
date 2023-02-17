@@ -10,7 +10,7 @@ const root = createRoot(container);
 root.render(
   <TransactionProvider>
     <React.StrictMode>
-      <App />,
+      <App />
     </React.StrictMode>
   </TransactionProvider>
 );

@@ -1,13 +1,10 @@
 import React from "react";
-import { createContext, useEffect, useState, CSSProperties } from "react";
+import { createContext, useState } from "react";
 import { ethers } from "ethers";
 
-import routerAbi from "../Contract/abi.json";
 import approveAbi from "../Contract/approve.json";
 import MigrationContractAbi from "../Contract/abi.json";
 
-import { css } from "@emotion/react";
-import { useWeb3React } from "@web3-react/core";
 export const TransactionContext = createContext({});
 export const TransactionProvider = ({ children }) => {
   const [currentAccount, setCurrentAccount] = useState("");
@@ -22,8 +19,7 @@ export const TransactionProvider = ({ children }) => {
   const [error, setError] = useState(false);
   const [first, setfirst] = useState("");
 
-  const { active, account, library, connector, activate, deactivate } =
-    useWeb3React();
+ 
 
   // /""INTERNAL............................
   const MigrationContractAddress = "0x00Be416a7A36D4BC479d90CB3a4986E4f3720d71";
