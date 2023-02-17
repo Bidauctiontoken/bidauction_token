@@ -44,14 +44,18 @@ export const TransactionProvider = ({ children }) => {
   let accounts;
 
   const connectWallet = async () => {
-    if (typeof window.ethereum !== "undefined")
-      try {
-        await handleState();
-        setloggedAccount(accounts[0]);
-        setCurrentAccount(
-          `${accounts[0].substr(0, 4)}...${accounts[0].substr(-4)}`
-        );
-      } catch (error) {}
+    if (typeof window.ethereum === "undefined") {
+      // MetaMask is not installed, provide user with instructions to install it
+      console.log("Please install MetaMask to use this dApp");
+      return;
+    }
+    try {
+      await handleState();
+      setloggedAccount(accounts[0]);
+      setCurrentAccount(
+        `${accounts[0].substr(0, 4)}...${accounts[0].substr(-4)}`
+      );
+    } catch (error) {}
     // }
     // setLogOut(accounts[0]);
 
