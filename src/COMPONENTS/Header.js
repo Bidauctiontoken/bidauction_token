@@ -24,7 +24,7 @@ export default function Header() {
           {currentAccount ? (
             <>
               <div className="the__buttons">
-                <button className="buttons">{currentAccount}</button>
+                <button className="address__buttons">{currentAccount}</button>
                 <button
                   onClick={() => handleSwitchAccounts()}
                   className="switch__buttons"
