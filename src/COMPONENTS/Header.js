@@ -8,23 +8,24 @@ import img1 from "../images/logo.png";
 
 export default function Header() {
   const { active, deactivate } = useWeb3React();
-  const [isWalletConnected, setIsWalletConnected] = useState();
-  const { connectWallet, currentAccount } = useContext(TransactionContext);
+  // const [isWalletConnected, setIsWalletConnected] = useState();
+  const { connectWallet, currentAccount, handleSwitchAccounts } =
+    useContext(TransactionContext);
 
-  const handleSwitchAccounts = async () => {
-    if (window.ethereum) {
-      try {
-        await window.ethereum.request({
-          method: "wallet_requestPermissions",
-          params: [{ eth_accounts: {} }],
-        });
-        setIsWalletConnected(false);
-      } catch (err) {
-        console.error(err);
-        console.log("i got here");
-      }
-    }
-  };
+  // const handleSwitchAccounts = async () => {
+  //   if (window.ethereum) {
+  //     try {
+  //       await window.ethereum.request({
+  //         method: "wallet_requestPermissions",
+  //         params: [{ eth_accounts: {} }],
+  //       });
+  //       setIsWalletConnected(false);
+  //     } catch (err) {
+  //       console.error(err);
+  //       console.log("i got here");
+  //     }
+  //   }
+  // };
 
   return (
     <div className="contain1">
