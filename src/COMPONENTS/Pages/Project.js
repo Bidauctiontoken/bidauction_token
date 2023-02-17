@@ -65,7 +65,6 @@ function Project() {
 
       <div className="flex flex-col sm:flex-column justify-around items-center">
         <div className="mb-5">{/* left hand side placeholder */}</div>
-        <div className="mt-10">{/* <Countdown /> */}</div>
         <div className="action-card w-full sm:w-2/6 p-3 shadow-lg shadow-white-500 rounded bg-bgdark mt-5 box-shadow-lg">
           <h1 className="mb-3 font-bold">MIGRATE</h1>
           <>

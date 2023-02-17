@@ -91,15 +91,15 @@ li {
   box-sizing: border-box;
 }
 
-.MainBody {
+/* .MainBody {
   width: 95%;
   background: #f3f5f8;
   margin: 0 2rem;
-}
-.project__content {
+} */
+/* .project__content {
   justify-content: center;
   margin: auto;
-}
+} */
 
 .spinnerbtn {
   margin: -1rem;

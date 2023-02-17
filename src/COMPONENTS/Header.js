@@ -1,14 +1,10 @@
-// import { ConnectWallet, useAddress } from "@thirdweb-dev/react";
-import { useWeb3React } from "@web3-react/core";
 import "../styles/Home.css";
 import { Link } from "react-router-dom";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { TransactionContext } from "../COMPONENTS/ReactContext/TransactionContext";
 import img1 from "../images/logo.png";
 
 export default function Header() {
-  const { active, deactivate } = useWeb3React();
-  // const [isWalletConnected, setIsWalletConnected] = useState();
   const { connectWallet, currentAccount, handleSwitchAccounts } =
     useContext(TransactionContext);
 
