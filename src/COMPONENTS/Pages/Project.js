@@ -51,7 +51,7 @@ function Project() {
   return (
     <div className="project__content">
       <>
-        {!success && (
+        {success && (
           <div className="transaction__popup">
             <p>Migration {v1} to Bida V2 successful! 🤑</p>
           </div>
