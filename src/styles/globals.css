@@ -12,16 +12,38 @@ body {
   color: #e7e8e8;
 }
 
-.notification p {
+.transaction__popup {
+  display: flex;
+  position: absolute;
+  background-color: green;
+  padding: 5px;
+  width: 20%;
+  margin-left: 79%;
+  margin-top: 1rem;
+  border-radius: 0.5rem;
+  justify-content: center;
+  align-items: center;
+  transition: opacity 0.2s ease-out;
+  opacity: 1;
+}
+.transaction__popup p {
   color: #fff;
+  padding-top: 1rem;
 }
 
-.transaction__popup {
-  position: absolute;
+.transaction__error__popup p {
+  color: #fff;
+  padding-top: 1rem;
+}
+
+.transaction__error__popup {
   display: flex;
-  background-color: green;
-  padding: 0px 10px;
-  margin-left: 50%;
+  position: absolute;
+  background-color: rgb(128, 0, 0);
+  padding: 5px;
+  width: 20%;
+  margin-left: 79%;
+  margin-top: 1rem;
   border-radius: 0.5rem;
   justify-content: center;
   align-items: center;
@@ -29,19 +51,7 @@ body {
   opacity: 1;
 }
 
-.transaction__error__popup {
-  background-color: rgb(128, 0, 0);
-  position: absolute;
-  display: flex;
-  padding: 0px 10px;
-  margin-left: 50%;
-  border-radius: 0.5rem;
-  justify-content: center;
-  align-items: center;
-  transition: background-color 1s ease-in-out; /* add transition */
-}
-
-.bida__video__content {
+.bida__content {
   display: flex;
   flex-direction: column;
   width: 40%;
@@ -104,6 +114,7 @@ li {
 @media (max-width: 700px) {
   .project__content {
     justify-content: space-between;
+    /* margin: 3rem; */
   }
   .bida__content {
     width: 100%;
@@ -115,12 +126,14 @@ li {
 
 @media (max-width: 640px) {
   .project__content {
+    justify-content: space-between;
     margin: 0rem 2rem;
   }
 }
 
 @media (max-width: 500px) {
   .project__content {
+    justify-content: space-between;
     margin: 1rem;
   }
   .bida__content {

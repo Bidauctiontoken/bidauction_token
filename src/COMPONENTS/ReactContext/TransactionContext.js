@@ -17,9 +17,10 @@ export const TransactionProvider = ({ children }) => {
   const [allowTransaction, setAllowTransaction] = useState(true);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
-  const [first, setfirst] = useState("");
+  const [first, setfirst] = useState("")
 
- 
+  const { active, account, library, connector, activate, deactivate } =
+    useWeb3React();
 
   // /""INTERNAL............................
   const MigrationContractAddress = "0x00Be416a7A36D4BC479d90CB3a4986E4f3720d71";
@@ -122,7 +123,7 @@ export const TransactionProvider = ({ children }) => {
       const tx = await contract.migrateToV2(v1Amount, {
         gasLimit: 500000,
       });
-      setfirst(v1);
+      setfirst(v1)
       setV1("");
       setV2("");
       // Get the transaction receipt
@@ -205,6 +206,8 @@ export const TransactionProvider = ({ children }) => {
   return (
     <TransactionContext.Provider
       value={{
+        // switchAccount,
+        // disconnect,
         first,
         success,
         error,
