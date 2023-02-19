@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { createContext, useState } from "react";
 import { ethers } from "ethers";
 
@@ -8,7 +8,7 @@ import MigrationContractAbi from "../Contract/abi.json";
 export const TransactionContext = createContext({});
 export const TransactionProvider = ({ children }) => {
   const [currentAccount, setCurrentAccount] = useState("");
-  const [loggedAccount, setloggedAccount] = useState("");
+  const [loggedAccount, setLoggedAccount] = useState("");
   const [tokenv1Balance, setTokenv1Balance] = useState("");
   const [tokenv2Balance, setTokenv2Balance] = useState("");
   const [isLoaded, setIsLoaded] = useState(false);
@@ -42,59 +42,91 @@ export const TransactionProvider = ({ children }) => {
   let tokenV2Contract;
 
   let accounts;
-
   const connectWallet = async () => {
+    // Check if MetaMask is installed
     if (typeof window.ethereum === "undefined") {
-      // MetaMask is not installed, provide user with instructions to install it
-      console.log("Please install MetaMask to use this dApp");
+      window.alert("Please install MetaMask to use this dApp");
       return;
     }
     try {
-      await handleState();
-      setloggedAccount(accounts[0]);
-      setCurrentAccount(
-        `${accounts[0].substr(0, 4)}...${accounts[0].substr(-4)}`
+      // Request account access
+      accounts = await window.ethereum.request({
+        method: "eth_requestAccounts",
+      });
+
+      // Set up listener for account change
+      window.ethereum.on("accountsChanged", (newAccounts) => {
+        console.log("MetaMask account changed");
+        // Refresh the page
+        window.location.reload();
+      });
+
+      // Save account details to local storage
+      localStorage.setItem("connectedAccount", accounts[0]);
+
+      const loggedAccount = accounts[0];
+      const currentAccount = `${accounts[0].substr(
+        0,
+        4
+      )}...${accounts[0].substr(-4)}`;
+
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const signer = provider.getSigner();
+      const balance = await provider.getBalance(loggedAccount);
+      const curbal = ethers.utils.formatEther(balance, "ether");
+      const etherbal = parseFloat(curbal.toString());
+      const roundedbal = etherbal.toFixed(4);
+      console.log(roundedbal, "account balance");
+
+      const tV1 = await contract.tokenV1();
+      const tokenV2 = await contract.tokenV2();
+      const tokenV1Contract = new ethers.Contract(tV1, approveAbi, signer);
+      const tokenV2Contract = new ethers.Contract(tokenV2, approveAbi, signer);
+      const maxAllowanceRemaining = await tokenV1Contract.allowance(
+        accounts[0],
+        MigrationContractAddress
       );
-    } catch (error) {}
-    // }
-    // setLogOut(accounts[0]);
 
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const balance = await provider.getBalance(accounts[0]);
-    const curbal = ethers.utils.formatEther(balance, "ether");
-    const etherbal = parseFloat(curbal.toString());
-    const roundedbal = etherbal.toFixed(4);
+      //TOKENV1 BALANCE
+      const userBalanceTokenV1 = await tokenV1Contract.balanceOf(accounts[0]);
+      const tokenV1UserConvertedBalance =
+        ethers.utils.formatUnits(userBalanceTokenV1);
 
-    const tV1 = await contract.tokenV1();
-    const tokenV2 = await contract.tokenV2();
-    tokenV1Contract = new ethers.Contract(tV1, approveAbi, signer);
-    tokenV2Contract = new ethers.Contract(tokenV2, approveAbi, signer);
-    const maxAllowanceRemaining = await tokenV1Contract.allowance(
-      accounts[0],
-      MigrationContractAddress
-    );
+      //TOKENV2 BALANCE
+      const userBalanceTokenV2 = await tokenV2Contract.balanceOf(accounts[0]);
+      const tokenV2UserConvertedBalance = ethers.utils.formatUnits(
+        userBalanceTokenV2.toString()
+      );
 
-    //TOKENV1 BALANCE
-    const userBalanceTokenV1 = await tokenV1Contract.balanceOf(accounts[0]);
-    const tokenV1UserCOnvertdBalance =
-      ethers.utils.formatUnits(userBalanceTokenV1);
-    setTokenv1Balance(tokenV1UserCOnvertdBalance.toString());
+      // Update component state
+      setLoggedAccount(loggedAccount);
+      setCurrentAccount(currentAccount);
+      setTokenv1Balance(tokenV1UserConvertedBalance.toString());
+      setTokenv2Balance(tokenV2UserConvertedBalance.toString());
 
-    //TOKENV2 BALANCE
-    const userBalanceTokenV2 = await tokenV2Contract.balanceOf(accounts[0]);
-    const tokenV2UserCOnvertdBalance = ethers.utils.formatUnits(
-      userBalanceTokenV2.toString()
-    );
-    setTokenv2Balance(tokenV2UserCOnvertdBalance.toString());
-
-    if (maxAllowanceRemaining <= userBalanceTokenV1) {
-      // the approval button should show
-      setAllowTransaction(true);
-    } else {
-      // the approval button should not show
-      setAllowTransaction(false);
+      if (maxAllowanceRemaining <= userBalanceTokenV1) {
+        // the approval button should show
+        setAllowTransaction(true);
+      } else {
+        // the approval button should not show
+        setAllowTransaction(false);
+      }
+      // Call handleState function if it exists
+      if (typeof handleState === "function") {
+        await handleState();
+      }
+    } catch (error) {
+      console.error("Error connecting to MetaMask:", error);
     }
   };
+
+  // On component mount, check for a previously connected account in localStorage
+  useEffect(() => {
+    const storedAccount = localStorage.getItem("connectedAccount");
+    if (storedAccount) {
+      connectWallet();
+    }
+  }, []);
 
   const handleSwitchAccounts = async () => {
     if (window.ethereum) {
@@ -115,7 +147,7 @@ export const TransactionProvider = ({ children }) => {
     try {
       if (!isLoaded) {
         // if (!window.ethereum) return alert("Please install MetaMask");
-        accounts = await window.ethereum.request({
+        await window.ethereum.request({
           method: "eth_requestAccounts",
         });
 
@@ -163,18 +195,18 @@ export const TransactionProvider = ({ children }) => {
         const userBalanceTokenV1 = await tokenV1Contract.balanceOf(
           loggedAccount
         );
-        const tokenV1UserCOnvertdBalance =
+        const tokenV1UserConvertedBalance =
           ethers.utils.formatUnits(userBalanceTokenV1);
-        setTokenv1Balance(tokenV1UserCOnvertdBalance.toString());
+        setTokenv1Balance(tokenV1UserConvertedBalance.toString());
 
         //TOKENV2 BALANCE
         const userBalanceTokenV2 = await tokenV2Contract.balanceOf(
           loggedAccount
         );
-        const tokenV2UserCOnvertdBalance = ethers.utils.formatUnits(
+        const tokenV2UserConvertedBalance = ethers.utils.formatUnits(
           userBalanceTokenV2.toString()
         );
-        setTokenv2Balance(tokenV2UserCOnvertdBalance.toString());
+        setTokenv2Balance(tokenV2UserConvertedBalance.toString());
 
         setSuccess(true);
         setTimeout(() => {

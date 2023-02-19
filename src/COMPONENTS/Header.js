@@ -8,6 +8,10 @@ export default function Header() {
   const { connectWallet, currentAccount, handleSwitchAccounts } =
     useContext(TransactionContext);
 
+  function copyToClipboard() {
+    navigator.clipboard.writeText(currentAccount);
+  }
+
   return (
     <div className="contain1">
       <div className="head__content">
@@ -24,7 +28,10 @@ export default function Header() {
           {currentAccount ? (
             <>
               <div className="the__buttons">
-                <button className="address__buttons">{currentAccount}</button>
+                <button className="address__buttons" onClick={copyToClipboard}>
+                  {/* <span>Copy Address</span> */}
+                  {currentAccount}
+                </button>
                 <button
                   onClick={() => handleSwitchAccounts()}
                   className="switch__buttons"

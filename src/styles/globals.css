@@ -12,6 +12,12 @@ body {
   color: #e7e8e8;
 }
 
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
 .transaction__popup {
   display: flex;
   position: absolute;
@@ -62,14 +68,6 @@ body {
   color: #fff;
 }
 
-html,
-body {
-  padding: 0;
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-}
-
 p {
   font-size: 14px;
   font-weight: 500;
@@ -83,10 +81,6 @@ a {
 }
 li {
   list-style: none;
-}
-
-* {
-  box-sizing: border-box;
 }
 
 .spinnerbtn {
@@ -149,4 +143,3 @@ li {
 .right_wing {
   margin-top: 2rem;
 }
-
