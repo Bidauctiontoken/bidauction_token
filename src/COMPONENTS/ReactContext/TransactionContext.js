@@ -18,6 +18,7 @@ export const TransactionProvider = ({ children }) => {
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
   const [first, setfirst] = useState("");
+  const [contracts, setContracts] = useState();
 
   const [isWalletConnected, setIsWalletConnected] = useState();
 
@@ -25,32 +26,43 @@ export const TransactionProvider = ({ children }) => {
   const MigrationContractAddress = "0x00Be416a7A36D4BC479d90CB3a4986E4f3720d71";
 
   let [spinLoading, setSpinLoading] = useState(false);
-  // let [color, setColor] = useState("#ffff");
 
   //INSTANCES
-  let provider = new ethers.providers.Web3Provider(window.ethereum);
-  let signer = provider.getSigner();
+  // const provider =
+  //   window.ethereum != null
+  //     ? new ethers.providers.Web3Provider(window.ethereum)
+  //     : ethers.providers.getDefaultProvider();
 
-  let contract = new ethers.Contract(
-    MigrationContractAddress,
-    MigrationContractAbi,
-    signer
-  );
+  // console.log(provider, signer, contract, "all join ////////");
+
+  // console.log(provider, "console.log(typeof provider)");
 
   let tokenv1;
   let tokenV1Contract;
-  let tokenV2Contract;
+  // let tokenV2Contract;
 
-  let accounts;
+  // let accounts;
+
+  // const signer = provider.getSigner();
+  // let contract = new ethers.Contract(
+  //   MigrationContractAddress,
+  //   MigrationContractAbi,
+  //   signer
+  // );
+
+  // return contract;
+
   const connectWallet = async () => {
     // Check if MetaMask is installed
     if (typeof window.ethereum === "undefined") {
-      window.alert("Please install MetaMask to use this dApp");
+      // Handle the case where MetaMask is not installed
+      alert("Please install MetaMask to use this feature");
       return;
     }
+
     try {
       // Request account access
-      accounts = await window.ethereum.request({
+      const accounts = await window.ethereum.request({
         method: "eth_requestAccounts",
       });
 
@@ -70,8 +82,16 @@ export const TransactionProvider = ({ children }) => {
         4
       )}...${accounts[0].substr(-4)}`;
 
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
-      const signer = provider.getSigner();
+    
+
+      let provider = new ethers.providers.Web3Provider(window.ethereum);
+      let signer = provider.getSigner();
+      let contract = new ethers.Contract(
+        MigrationContractAddress,
+        MigrationContractAbi,
+        signer
+      );
+
       const balance = await provider.getBalance(loggedAccount);
       const curbal = ethers.utils.formatEther(balance, "ether");
       const etherbal = parseFloat(curbal.toString());
@@ -115,8 +135,8 @@ export const TransactionProvider = ({ children }) => {
       if (typeof handleState === "function") {
         await handleState();
       }
-    } catch (error) {
-      console.error("Error connecting to MetaMask:", error);
+    } catch (err) {
+      console.error(err);
     }
   };
 
@@ -128,6 +148,7 @@ export const TransactionProvider = ({ children }) => {
     }
   }, []);
 
+  //handle swich Account
   const handleSwitchAccounts = async () => {
     if (window.ethereum) {
       try {
@@ -141,6 +162,22 @@ export const TransactionProvider = ({ children }) => {
         console.log("i got here");
       }
     }
+  };
+
+  const handleDisconnect = () => {
+    // Clear local storage for the connected account
+    localStorage.removeItem("connectedAccount");
+
+    // Reload the page
+    window.location.reload();
+
+    // Reset component state
+    setLoggedAccount(null);
+    setCurrentAccount(null);
+    setTokenv1Balance(null);
+    setTokenv2Balance(null);
+    setAllowTransaction(false);
+    setIsWalletConnected(false);
   };
 
   const handleState = async () => {
@@ -169,6 +206,14 @@ export const TransactionProvider = ({ children }) => {
   const handleMigrate = async () => {
     setSpinLoading(true);
     try {
+      let provider = new ethers.providers.Web3Provider(window.ethereum);
+      let signer = provider.getSigner();
+      let contract = new ethers.Contract(
+        MigrationContractAddress,
+        MigrationContractAbi,
+        signer
+      );
+
       const v1Amount = ethers.utils.parseUnits(v1, "ether");
       const tx = await contract.migrateToV2(v1Amount, {
         gasLimit: 500000,
@@ -231,6 +276,14 @@ export const TransactionProvider = ({ children }) => {
   const ApproveTx = async (e) => {
     setSpinLoading(true);
     try {
+      let provider = new ethers.providers.Web3Provider(window.ethereum);
+      let signer = provider.getSigner();
+      let contract = new ethers.Contract(
+        MigrationContractAddress,
+        MigrationContractAbi,
+        signer
+      );
+
       tokenv1 = await contract.tokenV1();
       tokenV1Contract = new ethers.Contract(tokenv1, approveAbi, signer);
       const value = ethers.constants.MaxUint256;
@@ -256,8 +309,7 @@ export const TransactionProvider = ({ children }) => {
   return (
     <TransactionContext.Provider
       value={{
-        // switchAccount,
-        // disconnect,
+        handleDisconnect,
         handleSwitchAccounts,
         first,
         success,
@@ -274,7 +326,6 @@ export const TransactionProvider = ({ children }) => {
         tokenv1Balance,
         tokenv2Balance,
         setV1,
-        // accounts,
         spinLoading,
         loggedAccount,
       }}

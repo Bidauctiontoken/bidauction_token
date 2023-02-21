@@ -1,25 +1,8 @@
-import { useState, useEffect, useContext, CSSProperties } from "react";
-import { ethers } from "ethers";
-import MigrationContractAbi from "../Contract/abi.json";
+import { useState, useContext } from "react";
 import { TransactionContext } from "../ReactContext/TransactionContext";
-import Spinner from "../Pages/Spinner";
 import ClipLoader from "react-spinners/ClipLoader";
-import { css } from "@emotion/react";
-// import Countdown from "./Coundown";
-
-const MigrationContractAddress = "0x055A12C497E7DA8a0555a064712aE39aCbE7DbFa";
-
-//INSTANCES
-let provider = new ethers.providers.Web3Provider(window.ethereum);
-let signer = provider.getSigner();
-let contract = new ethers.Contract(
-  MigrationContractAddress,
-  MigrationContractAbi,
-  signer
-);
 
 function Project() {
-  // const [loading, setLoading] = useState(true);
   const [color, setColor] = useState("#ffffff");
   //spinner
 
@@ -30,19 +13,15 @@ function Project() {
   };
   const {
     ApproveTx,
-    currentAccount,
     v1,
     v2,
     handleMigrate,
     handleV1Change,
     handleMaxChange,
     allowTransaction,
-    AllowanceCheck,
     tokenv1Balance,
     tokenv2Balance,
-    setV1,
     spinLoading,
-    transactionCanceled,
     loggedAccount,
     success,
     error,
@@ -71,7 +50,7 @@ function Project() {
             <div className="flex flex-col mb-5 relative">
               <label
                 htmlFor="from"
-                className="text-lighter mb-2 flex justify-between "
+                className="text-lighter mb-2 flex justify-between"
               >
                 <h4>From</h4>
                 <h4>Bal: {tokenv1Balance}</h4>
@@ -138,7 +117,7 @@ function Project() {
                     )}
                   </button>
                 </>
-               ) : (
+              ) : (
                 <>
                   <button
                     onClick={() => handleMigrate()}
@@ -174,8 +153,8 @@ function Project() {
             title="Video: BIDA USD Charts and Auction Prices"
             width="400"
             height="340"
-            frameborder="0"
-            allowfullscreen
+            frameBorder="0"
+            allowFullScreen
           ></iframe>
           <p>
             Track current Bid Auction prices in real-time with historical BIDA
