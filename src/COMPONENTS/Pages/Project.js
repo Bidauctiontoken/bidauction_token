@@ -3,8 +3,8 @@ import { TransactionContext } from "../ReactContext/TransactionContext";
 import ClipLoader from "react-spinners/ClipLoader";
 
 function Project() {
-  const [color, setColor] = useState("#ffffff");
   //spinner
+  const [color, setColor] = useState("#ffffff");
 
   const override = {
     display: "block",

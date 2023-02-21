@@ -27,30 +27,9 @@ export const TransactionProvider = ({ children }) => {
 
   let [spinLoading, setSpinLoading] = useState(false);
 
-  //INSTANCES
-  // const provider =
-  //   window.ethereum != null
-  //     ? new ethers.providers.Web3Provider(window.ethereum)
-  //     : ethers.providers.getDefaultProvider();
-
-  // console.log(provider, signer, contract, "all join ////////");
-
-  // console.log(provider, "console.log(typeof provider)");
-
   let tokenv1;
   let tokenV1Contract;
   // let tokenV2Contract;
-
-  // let accounts;
-
-  // const signer = provider.getSigner();
-  // let contract = new ethers.Contract(
-  //   MigrationContractAddress,
-  //   MigrationContractAbi,
-  //   signer
-  // );
-
-  // return contract;
 
   const connectWallet = async () => {
     // Check if MetaMask is installed
@@ -81,8 +60,6 @@ export const TransactionProvider = ({ children }) => {
         0,
         4
       )}...${accounts[0].substr(-4)}`;
-
-    
 
       let provider = new ethers.providers.Web3Provider(window.ethereum);
       let signer = provider.getSigner();

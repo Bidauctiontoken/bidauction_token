@@ -54,17 +54,33 @@
 }
 .address__buttons {
   padding-right: 0.5rem;
-  color: gray;
+  color: rgb(189, 187, 187);
 }
 
-.switch__buttons {
-  padding-left: 0.5rem;
-  border-left: 2px solid rgb(6, 6, 139);
+.address__buttons {
+  position: relative;
 }
-.wallet__button {
-  background-color: transparent;
-  border-radius: var(--border-radius);
-  border: var(--border);
+
+.address__arrow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.address__arrow:hover {
+  color: #777777;
+}
+
+.arrow__down:hover {
+  color: #777777;
+}
+
+.arrow__down {
+  display: inline-block;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.1rem;
+  color: rgb(189, 187, 187);
 }
 
 .the__buttons {
@@ -72,9 +88,15 @@
   border-radius: var(--border-radius);
   border: var(--border);
   color: var(--primary-color);
-  color: #fff;
+  color: rgb(189, 187, 187);
   padding: 0.5rem;
   cursor: pointer;
+}
+.the__buttons:hover {
+  color: #eeeeee;
+}
+.secondary__button:hover {
+  color: rgb(189, 187, 187);
 }
 
 a {
@@ -145,16 +167,11 @@ h6 {
   font-weight: bold;
 }
 
-.address__buttons {
-  position: relative;
-}
-
-.address__buttons:hover .modal-container {
-  display: block;
-}
-
 @media (max-width: 650px) {
-.modal{
+  .modal {
+    display: none;
+  }
+  .arrow__down {
     display: none;
   }
 }
@@ -165,7 +182,6 @@ h6 {
     margin-right: 2rem;
   }
 }
-
 
 @media (max-width: 430px) {
   .switch__buttons {

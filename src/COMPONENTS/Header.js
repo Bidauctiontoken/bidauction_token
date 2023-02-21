@@ -2,6 +2,7 @@ import "../styles/Home.css";
 import { useContext, useState } from "react";
 import { TransactionContext } from "../COMPONENTS/ReactContext/TransactionContext";
 import img1 from "../images/logo.png";
+import { GoArrowDown } from "react-icons/go";
 
 export default function Header() {
   const {
@@ -28,12 +29,15 @@ export default function Header() {
           {currentAccount ? (
             <>
               <div className="the__buttons">
-                <button
-                  className="address__buttons"
+                <div
+                  className="address__arrow"
                   onClick={() => setShowModal(true)}
                 >
-                  {currentAccount} <span className="arrow__down"></span>
-                </button>
+                  <button className="address__buttons">{currentAccount}</button>
+                  <span className="arrow__down">
+                    <GoArrowDown />
+                  </span>
+                </div>
                 <>
                   {showModal && (
                     <div className="modal">
@@ -44,17 +48,22 @@ export default function Header() {
                         >
                           X
                         </span>
-                        <button onClick={() => handleSwitchAccounts()}>
+                        <button
+                          className="secondary__button"
+                          onClick={() => handleSwitchAccounts()}
+                        >
                           Switch Account
                         </button>
-                        <button onClick={() => handleDisconnect()}>
+                        <button
+                          className="secondary__button"
+                          onClick={() => handleDisconnect()}
+                        >
                           Disconnect Account
                         </button>
                       </div>
                     </div>
                   )}
                 </>
-
                 {/* <button
                   onClick={() => handleSwitchAccounts()}
                   className="switch__buttons"
@@ -64,7 +73,7 @@ export default function Header() {
               </div>
             </>
           ) : (
-            <button onClick={() => connectWallet()} className="the__buttons ">
+            <button onClick={() => connectWallet()} className="the__buttons">
               Connect Wallet
             </button>
           )}
