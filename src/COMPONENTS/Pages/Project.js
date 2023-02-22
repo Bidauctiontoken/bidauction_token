@@ -1,10 +1,12 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { TransactionContext } from "../ReactContext/TransactionContext";
 import ClipLoader from "react-spinners/ClipLoader";
+import Countdown from "../Pages/CountDown";
 
 function Project() {
   //spinner
   const [color, setColor] = useState("#ffffff");
+  const [activeCountdown, setactiveCountdown] = useState();
 
   const override = {
     display: "block",
@@ -26,7 +28,6 @@ function Project() {
     success,
     error,
   } = useContext(TransactionContext);
-
   return (
     <div className="project__content">
       <>
@@ -42,9 +43,11 @@ function Project() {
         )}
       </>
 
+      <Countdown />
+
       <div className="flex flex-col sm:flex-column justify-around items-center">
         <div className="mb-5">{/* left hand side placeholder */}</div>
-        <div className="action-card w-full sm:w-2/6 p-3 shadow-lg shadow-white-500 rounded bg-bgdark mt-5 box-shadow-lg">
+        <div className="action-card w-full sm:w-2/6 p-3 shadow-md shadow-white-500 rounded bg-bgdark mt-5 box-shadow-lg">
           <h1 className="mb-3 font-bold">MIGRATE</h1>
           <>
             <div className="flex flex-col mb-5 relative">

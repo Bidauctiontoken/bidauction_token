@@ -35,7 +35,7 @@ export const TransactionProvider = ({ children }) => {
     // Check if MetaMask is installed
     if (typeof window.ethereum === "undefined") {
       // Handle the case where MetaMask is not installed
-      alert("Please install MetaMask to use this feature");
+      alert("Please install MetaMask to use this feature:");
       return;
     }
 
@@ -47,7 +47,6 @@ export const TransactionProvider = ({ children }) => {
 
       // Set up listener for account change
       window.ethereum.on("accountsChanged", (newAccounts) => {
-        console.log("MetaMask account changed");
         // Refresh the page
         window.location.reload();
       });
@@ -73,7 +72,6 @@ export const TransactionProvider = ({ children }) => {
       const curbal = ethers.utils.formatEther(balance, "ether");
       const etherbal = parseFloat(curbal.toString());
       const roundedbal = etherbal.toFixed(4);
-      console.log(roundedbal, "account balance");
 
       const tV1 = await contract.tokenV1();
       const tokenV2 = await contract.tokenV2();
@@ -112,9 +110,7 @@ export const TransactionProvider = ({ children }) => {
       if (typeof handleState === "function") {
         await handleState();
       }
-    } catch (err) {
-      console.error(err);
-    }
+    } catch (err) {}
   };
 
   // On component mount, check for a previously connected account in localStorage
@@ -134,10 +130,7 @@ export const TransactionProvider = ({ children }) => {
           params: [{ eth_accounts: {} }],
         });
         setIsWalletConnected(false);
-      } catch (err) {
-        console.error(err);
-        console.log("i got here");
-      }
+      } catch (err) {}
     }
   };
 
