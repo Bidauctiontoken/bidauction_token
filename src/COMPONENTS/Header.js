@@ -64,18 +64,14 @@ export default function Header() {
                     </div>
                   )}
                 </>
-                {/* <button
-                  onClick={() => handleSwitchAccounts()}
-                  className="switch__buttons"
-                >
-                  Switch Acccount
-                </button> */}
               </div>
             </>
           ) : (
-            <button onClick={() => connectWallet()} className="the__buttons">
-              Connect Wallet
-            </button>
+            <>
+              <button onClick={() => connectWallet()} className="the__buttons">
+                Connect Wallet
+              </button>
+            </>
           )}
         </div>
       </div>
