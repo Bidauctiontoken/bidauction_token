@@ -14,7 +14,7 @@ function CountDown() {
     if (storedEndTime) {
       setEndTime(parseInt(storedEndTime));
     } else {
-      const targetDate = new Date(Date.UTC(2023, 1, 24, 16, 40, 5)); // YEAR: MONTH: DATE: HOUR: MINUTE: SECOND:
+      const targetDate = new Date(Date.UTC(2023, 1, 25, 16, 40, 5)); // YEAR: MONTH: DATE: HOUR: MINUTE: SECOND:
       const newEndTime = targetDate.getTime();
       setEndTime(newEndTime);
       localStorage.setItem("endTime", newEndTime.toString());
@@ -35,7 +35,7 @@ function CountDown() {
       <div className="clock_content">
         {endTime && (
           <>
-            <h1>BidAuction</h1>
+            <h1>Bid-Auction</h1>
             <h3>Migration From V1 to V2 Start:.</h3>
             {!countdownComplete && (
               <FlipClockCountdown

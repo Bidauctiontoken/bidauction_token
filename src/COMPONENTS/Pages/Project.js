@@ -49,7 +49,7 @@ function Project() {
 
       {/* {showCountdown && <CountDown onComplete={handleCountdownComplete} />} */}
       {/* <CountDown /> */}
-      {!showCountdown ? (
+      {showCountdown ? (
         <CountDown onComplete={handleCountdownComplete} />
       ) : (
         <div className="flex flex-col sm:flex-column justify-around items-center">
@@ -166,7 +166,7 @@ function Project() {
               frameBorder="0"
               allowFullScreen
             ></iframe>
-            <p>Bid Auction: How to Migrate from BIDA V1 to V2.</p>
+            <p>Bid Auction: How to Migrate from BIDA V1 to V2</p>
           </div>
         </div>
       )}
