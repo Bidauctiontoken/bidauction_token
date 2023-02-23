@@ -7,8 +7,8 @@ body {
   filter: blur(19x);
   filter: blur(0px);
   -webkit-filter: blur(0px);
-  /* background: url("../images/background.png") no-repeat center center; */
-  background-color: #000;
+  background: url("../images/background.png") no-repeat center center;
+  /* background-color: #000; */
 
   background-size: cover;
   color: #e7e8e8;
@@ -96,9 +96,10 @@ li {
 }
 
 .action-card {
--webkit-box-shadow: -1px 1px 22px 6px rgba(255,255,255,0.72);
--moz-box-shadow: -1px 1px 22px 6px rgba(255,255,255,0.72);
-box-shadow: -1px 1px 22px 6px rgba(99, 99, 99, 0.72);}
+  -webkit-box-shadow: -1px 1px 22px 6px rgba(255, 255, 255, 0.72);
+  -moz-box-shadow: -1px 1px 22px 6px rgba(255, 255, 255, 0.72);
+  box-shadow: -1px 1px 22px 6px rgba(99, 99, 99, 0.72);
+}
 
 @media (max-width: 700px) {
   .project__content {
