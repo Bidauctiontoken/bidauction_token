@@ -14,7 +14,7 @@ function CountDown() {
     if (storedEndTime) {
       setEndTime(parseInt(storedEndTime));
     } else {
-      const targetDate = new Date(Date.UTC(2023, 1, 26, 16, 40, 5)); // YEAR: MONTH: DATE: HOUR: MINUTE: SECOND:
+      const targetDate = new Date(Date.UTC(2023, 1, 26, 4, 40, 5)); // YEAR: MONTH: DATE: HOUR: MINUTE: SECOND:
       const newEndTime = targetDate.getTime();
       setEndTime(newEndTime);
       localStorage.setItem("endTime", newEndTime.toString());
