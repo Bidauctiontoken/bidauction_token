@@ -68,10 +68,7 @@ export default function Header() {
             </>
           ) : (
             <>
-              <button
-                // onClick={() => connectWallet()}
-                className="the__buttons"
-              >
+              <button onClick={() => connectWallet()} className="the__buttons">
                 Connect Wallet
               </button>
             </>
