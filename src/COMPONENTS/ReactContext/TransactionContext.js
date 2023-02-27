@@ -19,6 +19,8 @@ export const TransactionProvider = ({ children }) => {
   const [error, setError] = useState(false);
   const [first, setfirst] = useState("");
   const [userVest, setUserVest] = useState("");
+  const [userWidrawal, setUserWidrawal] = useState("");
+  const [userSubtract, setUserSubtract] = useState("");
 
   const [isWalletConnected, setIsWalletConnected] = useState();
 
@@ -318,17 +320,37 @@ export const TransactionProvider = ({ children }) => {
       );
 
       const userVestingData = await contract.userVestingData(loggedAccount);
-      const userVestingDataBigNumber = userVestingData[0];
-      const curbal = ethers.utils.formatEther(
-        userVestingDataBigNumber,
+      const userVestingData0 = userVestingData[0];
+      const userVestingData1 = userVestingData[1];
+
+      const userVestingData0InEther = ethers.utils.formatEther(
+        userVestingData0,
         "ether"
       );
-      const etherbal = parseFloat(curbal.toString());
-      const roundedbal = etherbal.toFixed();
-      setUserVest(roundedbal);
-      console.log(roundedbal, "asdfghjkl");
-    } catch (err) {
-    }
+      const userVestingData1InEther = ethers.utils.formatEther(
+        userVestingData1,
+        "ether"
+      );
+
+      const userVestingData0InFloat = parseFloat(userVestingData0InEther);
+      const userVestingData1InFloat = parseFloat(userVestingData1InEther);
+
+      const roundedUserVestingData0 = userVestingData0InFloat.toFixed();
+      const roundedUserVestingData1 = userVestingData1InFloat.toFixed();
+
+      const subtractVesting = roundedUserVestingData0 - roundedUserVestingData1;
+
+      setUserVest([roundedUserVestingData0]);
+      setUserWidrawal([roundedUserVestingData1]);
+      setUserSubtract(subtractVesting);
+
+      console.log(
+        roundedUserVestingData0,
+        roundedUserVestingData1,
+        subtractVesting,
+        "hellooooooo"
+      );
+    } catch (err) {}
   };
 
   useEffect(() => {
@@ -338,6 +360,8 @@ export const TransactionProvider = ({ children }) => {
   return (
     <TransactionContext.Provider
       value={{
+        userSubtract,
+        userWidrawal,
         userVest,
         Claim,
         handleDisconnect,

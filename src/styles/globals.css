@@ -63,7 +63,7 @@ body {
   width: 40%;
   justify-content: center;
   align-items: center;
-  margin: 4rem;
+  margin: auto;
 }
 .bida__video__content p {
   font-size: large;
@@ -102,6 +102,11 @@ li {
   /* margin: 4rem; */
 }
 
+.project__content {
+  width: 75%;
+  margin: auto;
+}
+
 @media (max-width: 700px) {
   .project__content {
     justify-content: space-between;
@@ -130,7 +135,6 @@ li {
   .actionCard {
     display: flex;
     flex-direction: column;
-    
   }
 }
 
@@ -150,10 +154,17 @@ li {
     width: 100%;
     justify-content: center;
     align-items: center;
-    margin: 4rem;
+    /* margin: 4rem; */
   }
 }
 
 .right_wing {
   margin-top: 2rem;
+}
+
+@media (max-width: 400px) {
+  .project__content {
+    width: 100%;
+    margin: auto;
+  }
 }

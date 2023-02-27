@@ -17,6 +17,8 @@ function Project() {
   };
 
   const {
+    userSubtract,
+    userWidrawal,
     userVest,
     Claim,
     ApproveTx,
@@ -48,10 +50,10 @@ function Project() {
         )}
       </>
 
-      <div className="flex flex-col sm:flex-column justify-around items-center">
+      <div className="flex flex-col sm:flex-column mx-10">
         <div className="mb-5">{/* left hand side placeholder */}</div>
-        <div className="actionCard flex flex-row justify-between gap-9">
-          <div className="action-card w-full sm:w-2/5 p-3 shadow-md shadow-white-500 rounded bg-bgdark mt-5 box-shadow-lg">
+        <div className="actionCard flex  justify-between gap-9 mb-9">
+          <div className="action-card w-full sm:w-2/3 p-3 shadow-md shadow-white-500 rounded bg-bgdark mt-5 box-shadow-lg">
             <h1 className="mb-3 font-bold">MIGRATE</h1>
             <>
               <div className="flex flex-col mb-5 relative">
@@ -154,10 +156,10 @@ function Project() {
               </div>
             </>
           </div>
-          <div className="action-card w-full sm:w-2/5 p-3 shadow-md shadow-white-500 rounded bg-bgdark mt-5 box-shadow-lg first-letter">
+          <div className="action-card w-full sm:w-2/3 p-3 shadow-md shadow-white-500 rounded bg-bgdark mt-5 box-shadow-lg first-letter">
             <h1 className="mb-3 font-bold">VESTING</h1>
             <>
-              <div className="flex flex-col mb-5 relative">
+              <div className="flex flex-col mb-5 ">
                 <label
                   htmlFor="from"
                   className="text-lighter mb-2 flex justify-between"
@@ -170,10 +172,13 @@ function Project() {
               <div className="flex flex-col mt-3">
                 <label className="text-lighter mb-2 flex justify-between ">
                   <h4>Amount Withdraw</h4>
-                  <h4 className="px-2 rounded">0.0</h4>
+                  <h4 className="px-2 rounded">{userWidrawal}</h4>
                 </label>
                 <hr className="text-lighter" />
-                <h4 className="flex  mx-2 text-lighter justify-end">0:0</h4>
+                {/* subtract [0] from [1] */}
+                <h4 className="flex  mx-2 text-lighter justify-end">
+                  {userSubtract}
+                </h4>
                 <>
                   <button
                     className={
@@ -183,7 +188,8 @@ function Project() {
                     }
                     onClick={() => Claim()}
                   >
-                    {spinLoading ? (
+                    Claim
+                    {/* {spinLoading ? (
                       <div className="spinnerbtn">
                         <ClipLoader
                           color={color}
@@ -195,7 +201,7 @@ function Project() {
                       </div>
                     ) : (
                       "Claim"
-                    )}
+                    )} */}
                   </button>
                 </>
               </div>
