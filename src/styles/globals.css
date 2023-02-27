@@ -99,6 +99,7 @@ li {
   -webkit-box-shadow: -1px 1px 22px 6px rgba(255, 255, 255, 0.72);
   -moz-box-shadow: -1px 1px 22px 6px rgba(255, 255, 255, 0.72);
   box-shadow: -1px 1px 22px 6px rgba(99, 99, 99, 0.72);
+  /* margin: 4rem; */
 }
 
 @media (max-width: 700px) {
@@ -125,6 +126,11 @@ li {
   .transaction__error__popup {
     width: 40%;
     margin-left: 49%;
+  }
+  .actionCard {
+    display: flex;
+    flex-direction: column;
+    
   }
 }
 

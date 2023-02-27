@@ -18,12 +18,12 @@ export const TransactionProvider = ({ children }) => {
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
   const [first, setfirst] = useState("");
-  const [contracts, setContracts] = useState();
+  const [userVest, setUserVest] = useState("");
 
   const [isWalletConnected, setIsWalletConnected] = useState();
 
   // /""INTERNAL............................
-  const MigrationContractAddress = "0x00Be416a7A36D4BC479d90CB3a4986E4f3720d71";
+  const MigrationContractAddress = "0xb9121960934245C511A63afebd59c81B6a43da4B";
 
   let [spinLoading, setSpinLoading] = useState(false);
 
@@ -184,8 +184,8 @@ export const TransactionProvider = ({ children }) => {
         signer
       );
 
-      const v1Amount = ethers.utils.parseUnits(v1, "ether");
-      const tx = await contract.migrateToV2(v1Amount, {
+      // const v1Amount = ethers.utils.parseUnits(v1, "ether");
+      const tx = await contract.migrateToV2({
         gasLimit: 500000,
       });
       setfirst(v1);
@@ -222,6 +222,7 @@ export const TransactionProvider = ({ children }) => {
           userBalanceTokenV2.toString()
         );
         setTokenv2Balance(tokenV2UserConvertedBalance.toString());
+        console.log(tokenv2Balance, "balllllllll");
 
         setSuccess(true);
         setTimeout(() => {
@@ -238,6 +239,7 @@ export const TransactionProvider = ({ children }) => {
       setTimeout(() => {
         setError(false);
       }, 5000);
+      console.log(err, "the errors");
     }
     setSpinLoading(false);
   };
@@ -276,9 +278,68 @@ export const TransactionProvider = ({ children }) => {
     setSpinLoading(false);
   };
 
+  //CLAIM
+  const Claim = async () => {
+    // setSpinLoading(true);
+    try {
+      let provider = new ethers.providers.Web3Provider(window.ethereum);
+      let signer = provider.getSigner();
+      let contract = new ethers.Contract(
+        MigrationContractAddress,
+        MigrationContractAbi,
+        signer
+      );
+
+      const claimIt = await contract.claim({ gasLimit: 500000 });
+
+      // setUserVest(vestingData.toString());
+      // // Get the transaction receipt
+      // const receipt = await tx.wait();
+
+      // // Check if the transaction was successful
+      // if (receipt.status === 1) {
+      //   setAllowTransaction(false);
+      // } else {
+      // }
+      console.log(claimIt, "oya claim");
+    } catch (err) {}
+    // setSpinLoading(false);
+  };
+
+  //userVestingData
+  const UserVestingData = async () => {
+    try {
+      let provider = new ethers.providers.Web3Provider(window.ethereum);
+      let signer = provider.getSigner();
+      let contract = new ethers.Contract(
+        MigrationContractAddress,
+        MigrationContractAbi,
+        signer
+      );
+
+      const userVestingData = await contract.userVestingData(loggedAccount);
+      const userVestingDataBigNumber = userVestingData[0];
+      const curbal = ethers.utils.formatEther(
+        userVestingDataBigNumber,
+        "ether"
+      );
+      const etherbal = parseFloat(curbal.toString());
+      const roundedbal = etherbal.toFixed();
+      setUserVest(roundedbal);
+      console.log(roundedbal, "asdfghjkl");
+    } catch (err) {
+    }
+  };
+
+  useEffect(() => {
+    UserVestingData();
+  }, [loggedAccount]);
+
   return (
     <TransactionContext.Provider
       value={{
+        userVest,
+        Claim,
         handleDisconnect,
         handleSwitchAccounts,
         first,

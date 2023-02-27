@@ -14,10 +14,6 @@ export default function Header() {
 
   const [showModal, setShowModal] = useState(false);
 
-  function copyToClipboard() {
-    navigator.clipboard.writeText(currentAccount);
-  }
-
   return (
     <div className="contain1">
       <div className="head__content">
