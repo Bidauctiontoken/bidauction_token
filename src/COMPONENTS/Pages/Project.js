@@ -34,6 +34,7 @@ function Project() {
     loggedAccount,
     success,
     error,
+    claimLoading,
   } = useContext(TransactionContext);
   return (
     <div className="project__content">
@@ -165,18 +166,18 @@ function Project() {
                   className="text-lighter mb-2 flex justify-between"
                 >
                   <h4>Amount Vesting</h4>
-                  <h4 className=" px-3 rounded">{userVest}</h4>
+                  <h4 className=" px-3">{userVest}</h4>
                 </label>
               </div>
 
               <div className="flex flex-col mt-3">
                 <label className="text-lighter mb-2 flex justify-between ">
                   <h4>Amount Withdraw</h4>
-                  <h4 className="px-2 rounded">{userWidrawal}</h4>
+                  <h4 className="px-3">{userWidrawal}</h4>
                 </label>
                 <hr className="text-lighter" />
                 {/* subtract [0] from [1] */}
-                <h4 className="flex  mx-2 text-lighter justify-end">
+                <h4 className="flex px-1  mx-2 text-lighter justify-end">
                   {userSubtract}
                 </h4>
                 <>
@@ -188,20 +189,19 @@ function Project() {
                     }
                     onClick={() => Claim()}
                   >
-                    Claim
-                    {/* {spinLoading ? (
+                    {claimLoading ? (
                       <div className="spinnerbtn">
                         <ClipLoader
                           color={color}
                           cssOverride={override}
-                          loading={spinLoading}
+                          loading={claimLoading}
                           size={35}
                         />
                         <p>Claiming...</p>
                       </div>
                     ) : (
                       "Claim"
-                    )} */}
+                    )}
                   </button>
                 </>
               </div>

@@ -23,11 +23,11 @@ export const TransactionProvider = ({ children }) => {
   const [userSubtract, setUserSubtract] = useState("");
 
   const [isWalletConnected, setIsWalletConnected] = useState();
+  let [spinLoading, setSpinLoading] = useState(false);
+  let [claimLoading, setClaimLoading] = useState(false);
 
   // /""INTERNAL............................
   const MigrationContractAddress = "0xb6Be5015bF8fAec175972F5954C73C7baaAdd364";
-
-  let [spinLoading, setSpinLoading] = useState(false);
 
   let tokenv1;
   let tokenV1Contract;
@@ -282,7 +282,7 @@ export const TransactionProvider = ({ children }) => {
 
   //CLAIM
   const Claim = async () => {
-    // setSpinLoading(true);
+    setClaimLoading(true);
     try {
       let provider = new ethers.providers.Web3Provider(window.ethereum);
       let signer = provider.getSigner();
@@ -292,7 +292,10 @@ export const TransactionProvider = ({ children }) => {
         signer
       );
 
-      const claimIt = await contract.claim({ gasLimit: 500000 });
+      const claimIt = await contract.claim({
+        from: loggedAccount,
+        gasLimit: 500000,
+      });
 
       // setUserVest(vestingData.toString());
       // // Get the transaction receipt
@@ -305,7 +308,7 @@ export const TransactionProvider = ({ children }) => {
       // }
       console.log(claimIt, "oya claim");
     } catch (err) {}
-    // setSpinLoading(false);
+    setClaimLoading(false);
   };
 
   //userVestingData
@@ -360,6 +363,7 @@ export const TransactionProvider = ({ children }) => {
   return (
     <TransactionContext.Provider
       value={{
+        claimLoading,
         userSubtract,
         userWidrawal,
         userVest,
