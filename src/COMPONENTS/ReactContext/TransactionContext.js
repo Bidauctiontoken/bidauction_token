@@ -25,7 +25,7 @@ export const TransactionProvider = ({ children }) => {
   const [isWalletConnected, setIsWalletConnected] = useState();
 
   // /""INTERNAL............................
-  const MigrationContractAddress = "0xb9121960934245C511A63afebd59c81B6a43da4B";
+  const MigrationContractAddress = "0xb6Be5015bF8fAec175972F5954C73C7baaAdd364";
 
   let [spinLoading, setSpinLoading] = useState(false);
 

@@ -162,7 +162,7 @@ li {
   margin-top: 2rem;
 }
 
-@media (max-width: 400px) {
+@media (max-width: 600px) {
   .project__content {
     width: 100%;
     margin: auto;
