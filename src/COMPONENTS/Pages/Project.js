@@ -35,6 +35,8 @@ function Project() {
     success,
     error,
     claimLoading,
+    userClaimDate,
+    isNextClaimDate,
   } = useContext(TransactionContext);
   return (
     <div className="project__content">
@@ -52,7 +54,7 @@ function Project() {
       </>
 
       <div className="flex flex-col sm:flex-column mx-10">
-        <div className="mb-5">{/* left hand side placeholder */}</div>
+        <div className="mb-7">{/* left hand side placeholder */}</div>
         <div className="actionCard flex  justify-between gap-9 mb-9">
           <div className="action-card w-full sm:w-2/3 p-3 shadow-md shadow-white-500 rounded bg-bgdark mt-5 box-shadow-lg">
             <h1 className="mb-3 font-bold">MIGRATE</h1>
@@ -160,7 +162,7 @@ function Project() {
           <div className="action-card w-full sm:w-2/3 p-3 shadow-md shadow-white-500 rounded bg-bgdark mt-5 box-shadow-lg first-letter">
             <h1 className="mb-3 font-bold">VESTING</h1>
             <>
-              <div className="flex flex-col mb-5 ">
+              <div className="flex flex-col mb-9 ">
                 <label
                   htmlFor="from"
                   className="text-lighter mb-2 flex justify-between"
@@ -175,18 +177,23 @@ function Project() {
                   <h4>Amount Withdraw</h4>
                   <h4 className="px-3">{userWidrawal}</h4>
                 </label>
-                <hr className="text-lighter" />
+                <hr className="text-lighter mb-6" />
                 {/* subtract [0] from [1] */}
-                <h4 className="flex px-1  mx-2 text-lighter justify-end">
+                <h4 className="flex px-1  mx-2 mb-2 text-lighter justify-end">
                   {userSubtract}
                 </h4>
+                <p className="flex justify-between">
+                  Next Claim Date:{" "}
+                  <span className="text-lighter ">{userClaimDate} </span>{" "}
+                </p>
                 <>
                   <button
                     className={
-                      loggedAccount
+                      isNextClaimDate
                         ? `bg-dark p-2 rounded w-full mt-10 text-lg font-semibold text-bold cursor-pointer shadow-lg py-4 hover:text-lighter`
                         : "bg-dark p-2 rounded w-full mt-10 text-lg font-semibold text-bold cursor-not-allowed shadow-lg py-4 hover:text-lighter"
                     }
+                    disabled={!isNextClaimDate}
                     onClick={() => Claim()}
                   >
                     {claimLoading ? (

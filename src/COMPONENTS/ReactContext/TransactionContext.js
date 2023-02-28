@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { createContext, useState } from "react";
 import { ethers } from "ethers";
+import moment from "moment";
 
 import approveAbi from "../Contract/approve.json";
 import MigrationContractAbi from "../Contract/abi.json";
@@ -21,10 +22,12 @@ export const TransactionProvider = ({ children }) => {
   const [userVest, setUserVest] = useState("");
   const [userWidrawal, setUserWidrawal] = useState("");
   const [userSubtract, setUserSubtract] = useState("");
+  const [userClaimDate, setUserClaimDate] = useState("");
 
   const [isWalletConnected, setIsWalletConnected] = useState();
   let [spinLoading, setSpinLoading] = useState(false);
   let [claimLoading, setClaimLoading] = useState(false);
+  const [isNextClaimDate, setIsNextClaimDate] = useState(false);
 
   // /""INTERNAL............................
   const MigrationContractAddress = "0xb6Be5015bF8fAec175972F5954C73C7baaAdd364";
@@ -325,6 +328,7 @@ export const TransactionProvider = ({ children }) => {
       const userVestingData = await contract.userVestingData(loggedAccount);
       const userVestingData0 = userVestingData[0];
       const userVestingData1 = userVestingData[1];
+      const userVestingClaimTime = userVestingData[2];
 
       const userVestingData0InEther = ethers.utils.formatEther(
         userVestingData0,
@@ -343,9 +347,23 @@ export const TransactionProvider = ({ children }) => {
 
       const subtractVesting = roundedUserVestingData0 - roundedUserVestingData1;
 
+      // Convert the Unix timestamp to a human-readable date and time string using Moment.js
+      // const isNextClaimDate = moment
+      //   .unix(userVestingClaimTime)
+      //   .format("MMMM Do YYYY, h:mm:ss a");
+
+      const nextClaimTime = new Date(
+        userVestingClaimTime * 1000
+      ).toLocaleString();
+
       setUserVest([roundedUserVestingData0]);
       setUserWidrawal([roundedUserVestingData1]);
       setUserSubtract(subtractVesting);
+      setUserClaimDate(nextClaimTime);
+
+      // Disable the claim button if the next claim date has not been reached
+      const isNextClaimDateReached = Date.now() >= nextClaimTime * 1000;
+      setIsNextClaimDate(isNextClaimDateReached);
 
       console.log(
         roundedUserVestingData0,
@@ -353,7 +371,11 @@ export const TransactionProvider = ({ children }) => {
         subtractVesting,
         "hellooooooo"
       );
-    } catch (err) {}
+      console.log(`nextclaim 1 ${nextClaimTime}`);
+      console.log(`isNextClaimDateReached ${isNextClaimDateReached}`);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   useEffect(() => {
@@ -363,6 +385,8 @@ export const TransactionProvider = ({ children }) => {
   return (
     <TransactionContext.Provider
       value={{
+        isNextClaimDate,
+        userClaimDate,
         claimLoading,
         userSubtract,
         userWidrawal,
