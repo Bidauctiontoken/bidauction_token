@@ -30,7 +30,7 @@ export const TransactionProvider = ({ children }) => {
   const [isNextClaimDate, setIsNextClaimDate] = useState(false);
 
   // /""INTERNAL............................
-  const MigrationContractAddress = "0xb6Be5015bF8fAec175972F5954C73C7baaAdd364";
+  const MigrationContractAddress = "0x4FC9A093746D87997a9edf7D4c60c2cc31952B98";
 
   let tokenv1;
   let tokenV1Contract;
