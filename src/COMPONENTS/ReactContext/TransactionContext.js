@@ -29,7 +29,6 @@ export const TransactionProvider = ({ children }) => {
   let [claimLoading, setClaimLoading] = useState(false);
   const [isNextClaimDate, setIsNextClaimDate] = useState(false);
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
-  const [isOpen, setIsOpen] = useState(false);
 
   // const [migrationNotStarted, setMigrationNotStarted] = useState(false);
 
@@ -301,7 +300,8 @@ export const TransactionProvider = ({ children }) => {
       // Check if migration has started
       const migrationStarted = await contract.migrationStarted();
       // code to check if migration started is false
-      return !migrationStarted;
+      return migrationStarted;
+      // return !migrationStarted;
     } catch (err) {}
   };
 
