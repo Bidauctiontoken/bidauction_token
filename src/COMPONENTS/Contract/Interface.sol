@@ -1,5 +1,5 @@
 /**
- *Submitted for verification at BscScan.com on 2023-02-28
+ *Submitted for verification at BscScan.com on 2023-02-10
 */
 
 // SPDX-License-Identifier: MIT
@@ -60,7 +60,6 @@ contract Ownable is Context {
         address msgSender = _msgSender();
         _owner = msgSender;
     }
-    event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
 
     function owner() public view returns (address) {
         return _owner;
@@ -71,62 +70,21 @@ contract Ownable is Context {
         _;
     }
 
-    /**
-     * @dev Leaves the contract without owner. It will not be possible to call
-     * `onlyOwner` functions anymore. Can only be called by the current owner.
-     *
-     * NOTE: Renouncing ownership will leave the contract without an owner,
-     * thereby removing any functionality that is only available to the owner.
-     */
-    function renounceOwnership() public virtual onlyOwner {
-        _transferOwnership(address(0));
-    }
-
-    /**
-     * @dev Transfers ownership of the contract to a new account (`newOwner`).
-     * Can only be called by the current owner.
-     */
-    function transferOwnership(address newOwner) public virtual onlyOwner {
-        require(newOwner != address(0), "Ownable: new owner is the zero address");
-        _transferOwnership(newOwner);
-    }
-
-    /**
-     * @dev Transfers ownership of the contract to a new account (`newOwner`).
-     * Internal function without access restriction.
-     */
-    function _transferOwnership(address newOwner) internal virtual {
-        address oldOwner = _owner;
-        _owner = newOwner;
-        emit OwnershipTransferred(oldOwner, newOwner);
-    }
-
 }
 
-contract BidaMigration is ReentrancyGuard, Context, Ownable{
-    struct UserVesting {
-        uint256 amountMigrated;
-        uint256 amountRemaining;
-        uint256 nextClaim;
-        bool userMigrated;
-    }
-    struct UserWhitelist {
-        uint256 amount;
-    }
-    mapping(address => UserVesting) private userVesting;
+contract Migrate is ReentrancyGuard, Context, Ownable{
+
     // we want to track who has already migrated to V2
-    mapping(address => UserWhitelist) private userWhitelisted;
+    mapping(address => bool) private claimed;
 
     IERC20 public tokenV1; //address of the old version
     IERC20 public tokenV2; //address of the new version
     uint256 public rate; // 1 token V1 ---> 1 * rate token V2
 
     bool public migrationStarted;
-    uint128 claimTimeDifferent;
 
     /// @notice Emits event every time someone migrates
     event MigrateToV2(address indexed addr, uint256 indexed amount);
-    event ClaimRewards(address indexed addr, uint256 indexed amount);
 
     /// @param tokenAddressV1 The address of old version
     /// @param tokenAddressV2 The address of new version
@@ -135,7 +93,6 @@ contract BidaMigration is ReentrancyGuard, Context, Ownable{
         tokenV2 = tokenAddressV2;
         tokenV1 = tokenAddressV1;
         rate = _rate;
-        claimTimeDifferent = 1200;
     }
 
     /// @notice Enables the migration
@@ -161,67 +118,18 @@ contract BidaMigration is ReentrancyGuard, Context, Ownable{
         token.transfer(msg.sender, amount );
     }
 
-    function migrateToV2() public nonReentrant(){
+    /// @param v1amount The amount of tokens to migrate
+    /// @notice Migrates from old version to new one
+    ///   User must call "approve" function on tokenV1 contract
+    ///   passing this contract address as "sender".
+    ///   Old tokens will be sent to burn
+    function migrateToV2(uint256 v1amount) public nonReentrant(){
         require(migrationStarted, 'Migration not started yet');
-        uint256 userBalance = tokenV1.balanceOf(msg.sender);
-        tokenV1.transferFrom(msg.sender, address(this), userBalance);
-        uint256 allowable = userWhitelisted[msg.sender].amount;
-        if (userBalance > allowable) {
-            userBalance = allowable;
-        }
-        require(allowable > 0, "Kindly request for whitelist");
-
-        UserVesting storage _uservesting = userVesting[msg.sender];
-        require(!_uservesting.userMigrated, "User already migrated");
-
-        uint256 amtToMigrate = (userBalance * rate) / 1e18;
-        uint256 rewards = getPercent(amtToMigrate);
-
-        _uservesting.amountMigrated = amtToMigrate;
-        _uservesting.userMigrated = true;
-        _uservesting.amountRemaining = amtToMigrate - rewards;
-        _uservesting.nextClaim = block.timestamp + claimTimeDifferent;
-        
-        tokenV2.transfer(msg.sender, rewards);
+        tokenV1.transferFrom(msg.sender, address(this), v1amount);
+        uint256 amtToMigrate = (v1amount * rate) / 1e18;
+        require(tokenV2.balanceOf(address(this)) >= amtToMigrate, 'No enough V2 liquidity');
+        tokenV2.transfer(msg.sender, amtToMigrate);
         emit MigrateToV2(msg.sender, amtToMigrate);
-    }
-
-    function claim() external {
-        UserVesting storage _uservesting = userVesting[msg.sender];
-        uint256 remnant = _uservesting.amountRemaining;
-        uint256 nxtClaim = _uservesting.nextClaim;
-        require(remnant > 0, "No more rewards");
-        require(block.timestamp > nxtClaim, "Relax, Time still counting");
-        uint256 rewards = getPercent(_uservesting.amountMigrated);
-        
-        _uservesting.nextClaim = block.timestamp + claimTimeDifferent;
-
-        _uservesting.amountRemaining = remnant - rewards;
-        tokenV2.transfer(msg.sender, rewards);
-        emit ClaimRewards(msg.sender, rewards);
-    }
-
-    function whitelist(address[] calldata investors, uint256[] calldata amount) external {
-        uint256 lent = investors.length;
-        require(lent == amount.length, "invalid length");
-        for(uint256 i; i < lent; ) {
-            userWhitelisted[investors[i]].amount = amount[i];
-            unchecked {
-                i++;
-            }
-        }
-    }
-
-    function userVestingData(address user) external view returns(UserVesting memory) {
-        return userVesting[user];
-    }
-
-    function getUserWhitelist(address user) external view returns(UserWhitelist memory) {
-        return userWhitelisted[user];
-    }
-
-    function getPercent(uint256 _amount) private pure returns(uint256) {
-        return ((_amount * 20) / 100);
     }
 
 }

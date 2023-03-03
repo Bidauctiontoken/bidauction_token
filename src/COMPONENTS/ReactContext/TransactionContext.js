@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { createContext, useState } from "react";
 import { ethers } from "ethers";
 import moment from "moment";
+import { Popover, Modal } from "antd";
 
 import approveAbi from "../Contract/approve.json";
 import MigrationContractAbi from "../Contract/abi.json";
@@ -28,9 +29,16 @@ export const TransactionProvider = ({ children }) => {
   let [spinLoading, setSpinLoading] = useState(false);
   let [claimLoading, setClaimLoading] = useState(false);
   const [isNextClaimDate, setIsNextClaimDate] = useState(false);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
+
+  // const [migrationNotStarted, setMigrationNotStarted] = useState(false);
 
   // /""INTERNAL............................
-  const MigrationContractAddress = "0x4FC9A093746D87997a9edf7D4c60c2cc31952B98";
+  const MigrationContractAddress = "0x00be416a7a36d4bc479d90cb3a4986e4f3720d71";
+  // const MigrationContractAddress = "0xe0d892e8bf53fe60b88d4a1cff78189b5c5d04af";
+  // const MigrationContractAddress = "0xb6Be5015bF8fAec175972F5954C73C7baaAdd364";
+  // const MigrationContractAddress = "0x4FC9A093746D87997a9edf7D4c60c2cc31952B98";
 
   let tokenv1;
   let tokenV1Contract;
@@ -249,7 +257,18 @@ export const TransactionProvider = ({ children }) => {
     setSpinLoading(false);
   };
 
-  /////APPROVE TRANSACTION//////////////////
+  // <Modal
+  //   open={isOpen}
+  //   footer={null}
+  //   onCancel={() => setIsOpen(false)}
+  //   title="Migration not yet started"
+  //   style={{ backgroundColor: "#F9F5F5" }} // set background color here
+  // >
+  //   <div className="modalContent">
+  //     <p>The migration has not yet started.</p>
+  //   </div>
+  // </Modal>;
+
   const ApproveTx = async (e) => {
     setSpinLoading(true);
     try {
@@ -283,115 +302,182 @@ export const TransactionProvider = ({ children }) => {
     setSpinLoading(false);
   };
 
-  //CLAIM
-  const Claim = async () => {
-    setClaimLoading(true);
-    try {
-      let provider = new ethers.providers.Web3Provider(window.ethereum);
-      let signer = provider.getSigner();
-      let contract = new ethers.Contract(
-        MigrationContractAddress,
-        MigrationContractAbi,
-        signer
-      );
+   const IsMigration = async () => {
+     try {
+       let provider = new ethers.providers.Web3Provider(window.ethereum);
+       let contract = new ethers.Contract(
+         MigrationContractAddress,
+         MigrationContractAbi,
+         provider
+       );
 
-      const claimIt = await contract.claim({
-        from: loggedAccount,
-        gasLimit: 500000,
-      });
+       // Check if migration has started
+       const migrationStarted = await contract.migrationStarted();
+       // code to check if migration started is false
+       return !migrationStarted;
 
-      // setUserVest(vestingData.toString());
-      // // Get the transaction receipt
-      // const receipt = await tx.wait();
+     } catch (err) {}
+   };
 
-      // // Check if the transaction was successful
-      // if (receipt.status === 1) {
-      //   setAllowTransaction(false);
-      // } else {
-      // }
-      console.log(claimIt, "oya claim");
-    } catch (err) {}
-    setClaimLoading(false);
-  };
+  /////APPROVE TRANSACTION//////////////////
+  // const ApproveTx = async (e) => {
+  //   setSpinLoading(true);
+  //   try {
+  //     let provider = new ethers.providers.Web3Provider(window.ethereum);
+  //     let signer = provider.getSigner();
+  //     let contract = new ethers.Contract(
+  //       MigrationContractAddress,
+  //       MigrationContractAbi,
+  //       signer
+  //     );
+
+  //     tokenv1 = await contract.tokenV1();
+  //     tokenV1Contract = new ethers.Contract(tokenv1, approveAbi, signer);
+  //     const value = ethers.constants.MaxUint256;
+  //     const tx = await tokenV1Contract.approve(
+  //       MigrationContractAddress,
+  //       value,
+  //       {
+  //         gasLimit: 71000,
+  //       }
+  //     );
+  //     // Get the transaction receipt
+  //     const receipt = await tx.wait();
+
+  //     // Check if the transaction was successful
+  //     if (receipt.status === 1) {
+  //       setAllowTransaction(false);
+  //     } else {
+  //     }
+  //   } catch (err) {}
+  //   setSpinLoading(false);
+  // };
+
+  // //CLAIM
+  // const Claim = async () => {
+  //   setClaimLoading(true);
+  //   try {
+  //     let provider = new ethers.providers.Web3Provider(window.ethereum);
+  //     let signer = provider.getSigner();
+  //     let contract = new ethers.Contract(
+  //       MigrationContractAddress,
+  //       MigrationContractAbi,
+  //       signer
+  //     );
+
+  //     const claimIt = await contract.claim({
+  //       from: loggedAccount,
+  //       gasLimit: 500000,
+  //     });
+
+  //     // Get the transaction receipt
+  //     const receipt = await claimIt.wait();
+
+  //     // Check if the transaction was successful
+  //     if (receipt.status === 1) {
+  //       setAllowTransaction(false);
+  //     } else {
+  //     }
+  //     console.log(claimIt, "oya claim");
+  //   } catch (err) {}
+  //   setClaimLoading(false);
+  // };
 
   //userVestingData
-  const UserVestingData = async () => {
-    try {
-      let provider = new ethers.providers.Web3Provider(window.ethereum);
-      let signer = provider.getSigner();
-      let contract = new ethers.Contract(
-        MigrationContractAddress,
-        MigrationContractAbi,
-        signer
-      );
+  // const UserVestingData = async () => {
+  //   try {
+  //     let provider = new ethers.providers.Web3Provider(window.ethereum);
+  //     let signer = provider.getSigner();
+  //     let contract = new ethers.Contract(
+  //       MigrationContractAddress,
+  //       MigrationContractAbi,
+  //       signer
+  //     );
 
-      const userVestingData = await contract.userVestingData(loggedAccount);
-      const userVestingData0 = userVestingData[0];
-      const userVestingData1 = userVestingData[1];
-      const userVestingClaimTime = userVestingData[2];
+  //     const userVestingData = await contract.userVestingData(loggedAccount);
+  //     const userVestingData0 = userVestingData[0];
+  //     const userVestingData1 = userVestingData[1];
+  //     const isSmartContractTime = userVestingData[2];
+  //     console.log(userVestingData);
 
-      const userVestingData0InEther = ethers.utils.formatEther(
-        userVestingData0,
-        "ether"
-      );
-      const userVestingData1InEther = ethers.utils.formatEther(
-        userVestingData1,
-        "ether"
-      );
+  //     const userVestingData0InEther = ethers.utils.formatEther(
+  //       userVestingData0,
+  //       "ether"
+  //     );
+  //     const userVestingData1InEther = ethers.utils.formatEther(
+  //       userVestingData1,
+  //       "ether"
+  //     );
 
-      const userVestingData0InFloat = parseFloat(userVestingData0InEther);
-      const userVestingData1InFloat = parseFloat(userVestingData1InEther);
+  //     const userVestingData0InFloat = parseFloat(userVestingData0InEther);
+  //     const userVestingData1InFloat = parseFloat(userVestingData1InEther);
 
-      const roundedUserVestingData0 = userVestingData0InFloat.toFixed();
-      const roundedUserVestingData1 = userVestingData1InFloat.toFixed();
+  //     const roundedUserVestingData0 = userVestingData0InFloat.toFixed();
+  //     const roundedUserVestingData1 = userVestingData1InFloat.toFixed();
 
-      const subtractVesting = roundedUserVestingData0 - roundedUserVestingData1;
+  //     const subtractVesting = roundedUserVestingData0 - roundedUserVestingData1;
 
-      // Convert the Unix timestamp to a human-readable date and time string using Moment.js
-      // const isNextClaimDate = moment
-      //   .unix(userVestingClaimTime)
-      //   .format("MMMM Do YYYY, h:mm:ss a");
+  //     // Convert the Unix timestamp to a human-readable date and time string using Moment.js
+  //     const NextClaimDate = moment
+  //       .unix(isSmartContractTime)
+  //       .format("MMMM Do YYYY, h:mm:ss a");
+  //     console.log(NextClaimDate, "moment date");
 
-      const nextClaimTime = new Date(
-        userVestingClaimTime * 1000
-      ).toLocaleString();
+  //     const nextClaimTime = new Date(
+  //       isSmartContractTime * 1000
+  //     ).toLocaleString();
 
-      setUserVest([roundedUserVestingData0]);
-      setUserWidrawal([roundedUserVestingData1]);
-      setUserSubtract(subtractVesting);
-      setUserClaimDate(nextClaimTime);
+  //     setUserVest([roundedUserVestingData0]);
+  //     setUserWidrawal([roundedUserVestingData1]);
+  //     setUserSubtract(subtractVesting);
+  //     setUserClaimDate(nextClaimTime);
 
-      // Disable the claim button if the next claim date has not been reached
-      const isNextClaimDateReached = Date.now() >= nextClaimTime * 1000;
-      setIsNextClaimDate(isNextClaimDateReached);
+  //     // Disable the claim button if the next claim date has not been reached
 
-      console.log(
-        roundedUserVestingData0,
-        roundedUserVestingData1,
-        subtractVesting,
-        "hellooooooo"
-      );
-      console.log(`nextclaim 1 ${nextClaimTime}`);
-      console.log(`isNextClaimDateReached ${isNextClaimDateReached}`);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  //     const isCurrentTime = Date.now();
+  //     // const isButtonDisabled = isSmartContractTime > isCurrentTime;
+  //     // setIsButtonDisabled(isButtonDisabled);
 
-  useEffect(() => {
-    UserVestingData();
-  }, [loggedAccount]);
+  //     if (isSmartContractTime > isCurrentTime) {
+  //       setIsButtonDisabled(true);
+  //       console.log(isButtonDisabled, "disable");
+  //     } else {
+  //       setIsButtonDisabled(false);
+  //       console.log(isButtonDisabled, "enable");
+  //     }
+
+  //     // setIsNextClaimDate(isCurrentTime);
+
+  //     //  disabled={isCurrentTime <= isSmartContractTime}
+  //     // console.log(isButtonDisabled, "is button is live");
+  //     console.log(
+  //       "nextclaim from smart contract ",
+  //       isSmartContractTime.toString()
+  //     );
+  //     console.log(`current time ${isCurrentTime}`);
+  //   } catch (err) {
+  //     // console.log(err);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   UserVestingData();
+  // }, [loggedAccount]);
 
   return (
     <TransactionContext.Provider
       value={{
+        // setMigrationNotStarted,
+        // migrationNotStarted,
+        IsMigration,
+        isButtonDisabled,
         isNextClaimDate,
         userClaimDate,
         claimLoading,
         userSubtract,
         userWidrawal,
         userVest,
-        Claim,
+        // Claim,
         handleDisconnect,
         handleSwitchAccounts,
         first,

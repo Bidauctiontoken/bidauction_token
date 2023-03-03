@@ -15,6 +15,7 @@ module.exports = {
     backgroundColor: (theme) => ({
       bgdark: "#131313",
       dark: "#132c44",
+      disable: "red",
       light: "#275a8c",
       lighter: "#202123",
       red: "#f43f5e",
