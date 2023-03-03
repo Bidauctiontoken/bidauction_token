@@ -7,7 +7,7 @@ function Project() {
   //spinner
   const [color, setColor] = useState("#ffffff");
   const [showCountdown, setShowCountdown] = useState(true);
-  const [isOpen, setIsOpen] = useState(!false);
+  const [isOpen, setIsOpen] = useState(false);
   const [changeToken, setChangeToken] = useState();
 
   const handleCountdownComplete = () => {

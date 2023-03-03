@@ -43,7 +43,7 @@ body {
 }
 
 .ant-modal-close-icon {
-  color: #363e54 !important;
+  color: #aba4a4 !important;
   transition: 0.3s;
 }
 
@@ -53,8 +53,7 @@ body {
 
 .modalContent {
   border-top: 1px solid #363e54;
-  padding: 10px;
-  /* margin-top: 20px; */
+  padding: 20px;
   display: flex;
   flex-direction: column;
   gap: 10px;

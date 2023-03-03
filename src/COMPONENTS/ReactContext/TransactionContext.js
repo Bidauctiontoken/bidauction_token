@@ -1,8 +1,7 @@
 import React, { useEffect } from "react";
 import { createContext, useState } from "react";
 import { ethers } from "ethers";
-import moment from "moment";
-import { Popover, Modal } from "antd";
+// import moment from "moment";
 
 import approveAbi from "../Contract/approve.json";
 import MigrationContractAbi from "../Contract/abi.json";
@@ -257,18 +256,6 @@ export const TransactionProvider = ({ children }) => {
     setSpinLoading(false);
   };
 
-  // <Modal
-  //   open={isOpen}
-  //   footer={null}
-  //   onCancel={() => setIsOpen(false)}
-  //   title="Migration not yet started"
-  //   style={{ backgroundColor: "#F9F5F5" }} // set background color here
-  // >
-  //   <div className="modalContent">
-  //     <p>The migration has not yet started.</p>
-  //   </div>
-  // </Modal>;
-
   const ApproveTx = async (e) => {
     setSpinLoading(true);
     try {
@@ -302,22 +289,21 @@ export const TransactionProvider = ({ children }) => {
     setSpinLoading(false);
   };
 
-   const IsMigration = async () => {
-     try {
-       let provider = new ethers.providers.Web3Provider(window.ethereum);
-       let contract = new ethers.Contract(
-         MigrationContractAddress,
-         MigrationContractAbi,
-         provider
-       );
+  const IsMigration = async () => {
+    try {
+      let provider = new ethers.providers.Web3Provider(window.ethereum);
+      let contract = new ethers.Contract(
+        MigrationContractAddress,
+        MigrationContractAbi,
+        provider
+      );
 
-       // Check if migration has started
-       const migrationStarted = await contract.migrationStarted();
-       // code to check if migration started is false
-       return !migrationStarted;
-
-     } catch (err) {}
-   };
+      // Check if migration has started
+      const migrationStarted = await contract.migrationStarted();
+      // code to check if migration started is false
+      return !migrationStarted;
+    } catch (err) {}
+  };
 
   /////APPROVE TRANSACTION//////////////////
   // const ApproveTx = async (e) => {
