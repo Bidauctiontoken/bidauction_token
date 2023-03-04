@@ -202,7 +202,6 @@ export const TransactionProvider = ({ children }) => {
       setfirst(v1);
       setV1("");
       setV2("");
-      console.log(v1Amount.toString(), "token v1");
       // Get the transaction receipt
       const receipt = await tx.wait();
 
@@ -234,7 +233,6 @@ export const TransactionProvider = ({ children }) => {
           userBalanceTokenV2.toString()
         );
         setTokenv2Balance(tokenV2UserConvertedBalance.toString());
-        console.log(tokenv2Balance, "balllllllll");
 
         setSuccess(true);
         setTimeout(() => {
@@ -251,7 +249,6 @@ export const TransactionProvider = ({ children }) => {
       setTimeout(() => {
         setError(false);
       }, 5000);
-      console.log(err, "the errors");
     }
     setSpinLoading(false);
   };
