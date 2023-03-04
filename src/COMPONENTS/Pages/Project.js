@@ -8,7 +8,6 @@ function Project() {
   const [color, setColor] = useState("#ffffff");
   const [showCountdown, setShowCountdown] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
-  const [changeToken, setChangeToken] = useState();
 
   const handleCountdownComplete = () => {
     setShowCountdown(false);
@@ -148,16 +147,8 @@ function Project() {
                         }
                         onClick={async () => {
                           if (await IsMigration()) {
-                            console.log(
-                              "seeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
-                              await IsMigration()
-                            );
                             ApproveTx();
                           } else {
-                            console.log(
-                              "nototottjsnkshfohdfkljdjkl",
-                              await IsMigration()
-                            );
                             // openModal();
                             setIsOpen(true);
                           }

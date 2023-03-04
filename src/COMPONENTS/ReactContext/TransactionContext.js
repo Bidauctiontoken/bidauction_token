@@ -33,7 +33,7 @@ export const TransactionProvider = ({ children }) => {
   // const [migrationNotStarted, setMigrationNotStarted] = useState(false);
 
   // /""INTERNAL............................
-  const MigrationContractAddress = "0x00be416a7a36d4bc479d90cb3a4986e4f3720d71";
+  const MigrationContractAddress = "0x60be913F47B1d803193426d4Eaf88310D0c6e2D2";
   // const MigrationContractAddress = "0xe0d892e8bf53fe60b88d4a1cff78189b5c5d04af";
   // const MigrationContractAddress = "0xb6Be5015bF8fAec175972F5954C73C7baaAdd364";
   // const MigrationContractAddress = "0x4FC9A093746D87997a9edf7D4c60c2cc31952B98";
@@ -195,13 +195,14 @@ export const TransactionProvider = ({ children }) => {
         signer
       );
 
-      // const v1Amount = ethers.utils.parseUnits(v1, "ether");
-      const tx = await contract.migrateToV2({
+      const v1Amount = ethers.utils.parseUnits(v1.toString(), "ether");
+      const tx = await contract.migrateToV2(v1Amount, {
         gasLimit: 500000,
       });
       setfirst(v1);
       setV1("");
       setV2("");
+      console.log(v1Amount.toString(), "token v1");
       // Get the transaction receipt
       const receipt = await tx.wait();
 
