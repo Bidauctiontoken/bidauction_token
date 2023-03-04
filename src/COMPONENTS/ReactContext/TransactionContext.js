@@ -33,8 +33,8 @@ export const TransactionProvider = ({ children }) => {
   // const [migrationNotStarted, setMigrationNotStarted] = useState(false);
 
   // /""INTERNAL............................
-  const MigrationContractAddress = "0xc094de1a51e8491f6ad7d6d73db07f144d44cb50";
-  // const MigrationContractAddress = "0xe0d892e8bf53fe60b88d4a1cff78189b5c5d04af";
+  // const MigrationContractAddress = "0xc094de1a51e8491f6ad7d6d73db07f144d44cb50";
+  const MigrationContractAddress = "0xFF218559Ad9DA76c3673C5e26b7F4431E42Bf757";
   // const MigrationContractAddress = "0xb6Be5015bF8fAec175972F5954C73C7baaAdd364";
   // const MigrationContractAddress = "0x4FC9A093746D87997a9edf7D4c60c2cc31952B98";
 
