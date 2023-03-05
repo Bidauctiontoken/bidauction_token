@@ -1,13 +1,14 @@
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext } from "react";
 import { TransactionContext } from "../ReactContext/TransactionContext";
 import ClipLoader from "react-spinners/ClipLoader";
-import { Popover, Modal } from "antd";
+import { Modal } from "antd";
 
 function Project() {
   //spinner
   const [color, setColor] = useState("#ffffff");
   const [showCountdown, setShowCountdown] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
+  const [isMigrate, setIsMigrate] = useState(false);
 
   const handleCountdownComplete = () => {
     setShowCountdown(false);
@@ -37,29 +38,15 @@ function Project() {
     success,
     error,
     IsMigration,
+    checkIfMigrate,
+    hasMigrated,
+
     // claimLoading,
     // userClaimDate,
     // isNextClaimDate,
     // isButtonDisabled,
     migrationNotStarted,
   } = useContext(TransactionContext);
-
-  // function openModal() {
-  //   Modal.info({
-  //     title: "Migration Not Yet Started",
-  //     content: "Please wait for migration to start before approving.",
-  //     okText: "OK",
-  //     cancelText: "Cancel",
-  //     onOk() {},
-  //     onCancel() {
-  //       setIsOpen(false);
-  //     },
-  //   });
-
-  //   // setChangeToken(asset);
-  //   setIsOpen(true);
-  //   console.log("hello");
-  // }
 
   return (
     <>
@@ -74,6 +61,7 @@ function Project() {
           <p>The migration has not yet started.</p>
         </div>
       </Modal>
+
       <div className="project__content">
         <>
           {success && (
@@ -175,12 +163,12 @@ function Project() {
                   ) : (
                     <>
                       <button
-                        onClick={() => handleMigrate()}
                         className={
                           loggedAccount
                             ? `bg-dark p-2 rounded w-full mt-10 text-lg font-semibold text-bold cursor-pointer shadow-lg py-4 hover:text-lighter`
                             : "bg-dark p-2 rounded w-full mt-10 text-lg font-semibold text-bold cursor-not-allowed shadow-lg py-4 hover:text-lighter"
                         }
+                        onClick={() => handleMigrate()}
                         // disabled={!allowTransaction}
                       >
                         {spinLoading ? (

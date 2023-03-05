@@ -6,6 +6,8 @@ import { ethers } from "ethers";
 import approveAbi from "../Contract/approve.json";
 import MigrationContractAbi from "../Contract/abi.json";
 
+import { Modal } from "antd";
+
 export const TransactionContext = createContext({});
 export const TransactionProvider = ({ children }) => {
   const [currentAccount, setCurrentAccount] = useState("");
@@ -29,14 +31,11 @@ export const TransactionProvider = ({ children }) => {
   let [claimLoading, setClaimLoading] = useState(false);
   const [isNextClaimDate, setIsNextClaimDate] = useState(false);
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
-
-  // const [migrationNotStarted, setMigrationNotStarted] = useState(false);
+  const [hasMigrated, setHasMigrated] = useState(false);
+  const [open, setOpen] = useState(false);
 
   // /""INTERNAL............................
-  // const MigrationContractAddress = "0xc094de1a51e8491f6ad7d6d73db07f144d44cb50";
   const MigrationContractAddress = "0xFF218559Ad9DA76c3673C5e26b7F4431E42Bf757";
-  // const MigrationContractAddress = "0xb6Be5015bF8fAec175972F5954C73C7baaAdd364";
-  // const MigrationContractAddress = "0x4FC9A093746D87997a9edf7D4c60c2cc31952B98";
 
   let tokenv1;
   let tokenV1Contract;
@@ -194,14 +193,34 @@ export const TransactionProvider = ({ children }) => {
         MigrationContractAbi,
         signer
       );
+      const claimIt = await contract.claimed(loggedAccount);
+      const excludeIt = await contract.isExcluded(loggedAccount);
+
+      if (claimIt && !excludeIt) {
+        setSpinLoading(false);
+        // setHasMigrated(true);
+        Modal.info({
+          // onCancel={() => setOpen(false)}
+          title: <div style={{ color: "#fff" }}>Notice.</div>,
+          content: (
+            <div style={{ color: "#fff" }}>
+              <p>You have already migrated.</p>
+            </div>
+          ),
+          style: { padding: "24px" },
+        });
+        return;
+      }
 
       const v1Amount = ethers.utils.parseUnits(v1.toString(), "ether");
       const tx = await contract.migrateToV2(v1Amount, {
         gasLimit: 500000,
       });
+
       setfirst(v1);
       setV1("");
       setV2("");
+
       // Get the transaction receipt
       const receipt = await tx.wait();
 
@@ -286,6 +305,7 @@ export const TransactionProvider = ({ children }) => {
     setSpinLoading(false);
   };
 
+  //check if migration is started
   const IsMigration = async () => {
     try {
       let provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -302,6 +322,25 @@ export const TransactionProvider = ({ children }) => {
       // return !migrationStarted;
     } catch (err) {}
   };
+
+  // //check if account has been migrated
+  // const checkIfMigrate = async () => {
+  //   try {
+  //     let provider = new ethers.providers.Web3Provider(window.ethereum);
+  //     let signer = provider.getSigner();
+  //     let contract = new ethers.Contract(
+  //       MigrationContractAddress,
+  //       MigrationContractAbi,
+  //       signer
+  //     );
+  //     const claimIt = await contract.claimed(loggedAccount);
+  //     const excludeIt = await contract.isExcluded(loggedAccount);
+
+  //     if (claimIt && excludeIt) {
+  //       return handleMigrate();
+  //     }
+  //   } catch (err) {}
+  // };
 
   /////APPROVE TRANSACTION//////////////////
   // const ApproveTx = async (e) => {
@@ -453,6 +492,8 @@ export const TransactionProvider = ({ children }) => {
       value={{
         // setMigrationNotStarted,
         // migrationNotStarted,
+        // checkIfMigrate,
+        hasMigrated,
         IsMigration,
         isButtonDisabled,
         isNextClaimDate,
