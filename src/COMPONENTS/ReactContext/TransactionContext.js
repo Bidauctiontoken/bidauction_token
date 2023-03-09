@@ -35,7 +35,8 @@ export const TransactionProvider = ({ children }) => {
   const [open, setOpen] = useState(false);
 
   // /""INTERNAL............................
-  const MigrationContractAddress = "0xFF218559Ad9DA76c3673C5e26b7F4431E42Bf757";
+  // const MigrationContractAddress = "0xc094de1a51e8491f6ad7d6d73db07f144d44cb50";
+  const MigrationContractAddress = "0xB50Ade71b931843dd96FcAe9BA55a35a3cC7100d";
 
   let tokenv1;
   let tokenV1Contract;
