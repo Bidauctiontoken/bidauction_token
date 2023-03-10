@@ -36,7 +36,7 @@ export const TransactionProvider = ({ children }) => {
 
   // /""INTERNAL............................
   // const MigrationContractAddress = "0xc094de1a51e8491f6ad7d6d73db07f144d44cb50";
-  const MigrationContractAddress = "0xB50Ade71b931843dd96FcAe9BA55a35a3cC7100d";
+  const MigrationContractAddress = "0xB156CD0426aE3cD105AaDa83405d2b72dA04588F";
 
   let tokenv1;
   let tokenV1Contract;
