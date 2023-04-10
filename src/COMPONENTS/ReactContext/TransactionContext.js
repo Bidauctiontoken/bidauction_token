@@ -36,7 +36,7 @@ export const TransactionProvider = ({ children }) => {
 
   // /""INTERNAL............................
   // const MigrationContractAddress = "0xc094de1a51e8491f6ad7d6d73db07f144d44cb50";
-  const MigrationContractAddress = "0xB156CD0426aE3cD105AaDa83405d2b72dA04588F";
+  const MigrationContractAddress = "0xAf8D6F1210D7E290e23b0C52C279DF304B1114AE";
 
   let tokenv1;
   let tokenV1Contract;
@@ -212,7 +212,6 @@ export const TransactionProvider = ({ children }) => {
         });
         return;
       }
-
       const v1Amount = ethers.utils.parseUnits(v1.toString(), "ether");
       const tx = await contract.migrateToV2(v1Amount, {
         gasLimit: 500000,

@@ -27,9 +27,9 @@ function Project() {
     ApproveTx,
     v1,
     v2,
-    handleMigrate,
-    handleV1Change,
     handleMaxChange,
+    handleV1Change,
+    handleMigrate,
     allowTransaction,
     tokenv1Balance,
     tokenv2Balance,
@@ -137,13 +137,11 @@ function Project() {
                           if (await IsMigration()) {
                             ApproveTx();
                           } else {
-                            // openModal();
                             setIsOpen(true);
                           }
                           // }
                           // console.log("not yet started");
-                        }} // disabled={!loggedAccount}
-                        // disabled={!allowTransaction}
+                        }}
                       >
                         {spinLoading ? (
                           <div className="spinnerbtn">
